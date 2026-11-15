@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MixerShare UK - Digital Delivery Ticket & Radial Shift Logger</title>
+  <meta name="description" content="Mobile ready-mix digital delivery ticket, radial mileage tracker, waiting time logger and customer sign-off for MixerShare UK drivers and concrete plants.">
+  <link rel="stylesheet" href="styles.css?v=10">
+  <style>
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .ticket-nav {
+      background: #1e293b;
+      border-bottom: 3px solid #f59e0b;
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .ticket-nav .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: #fff;
+    }
+    .ticket-nav .brand-badge {
+      background: #f59e0b;
+      color: #0f172a;
+      font-weight: 900;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+    }
+    .ticket-nav .brand h1 {
+      margin: 0;
+      font-size: 1.25rem;
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+    .ticket-nav .brand p {
+      margin: 0;
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+    .ticket-container {
+      max-width: 820px;
+      margin: 1.5rem auto 3rem auto;
+      padding: 0 1rem;
+    }
+    .ticket-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+      margin-bottom: 1.5rem;
+    }
+    .ticket-badge-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.25rem;
+    }
+    .ticket-sec-title {
+      font-size: 1.05rem;
+      color: #f59e0b;
+      font-weight: 800;
+      margin: 1.25rem 0 0.75rem 0;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.85rem;
+      margin-bottom: 0.75rem;
+    }
+    .t-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .t-field label {
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      font-weight: 700;
+    }
+    .t-field input, .t-field select, .t-field textarea {
+      padding: 0.65rem 0.85rem;
+      background: #0f172a;
+      color: #fff;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .t-field input:focus, .t-field select:focus, .t-field textarea:focus {
+      border-color: #f59e0b;
+    }
+    .payout-calc-box {
+      background: #064e3b;
+      border: 2px solid #10b981;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin: 1.25rem 0;
+      color: #d1fae5;
+    }
+    .signature-wrap {
+      background: #0f172a;
+      border: 2px dashed #475569;
+      border-radius: 8px;
+      padding: 0.5rem;
+      text-align: center;
+      position: relative;
+    }
+    canvas#sig-canvas {
+      background: #ffffff;
+      border-radius: 6px;
+      touch-action: none;
+      cursor: crosshair;
+      width: 100%;
+      height: 160px;
+      display: block;
+    }
+    .btn-submit-ticket {
+      background: #16a34a;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.15rem;
+      padding: 1rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      width: 100%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.4);
+      transition: background 0.2s;
+    }
+    .btn-submit-ticket:hover {
+      background: #15803d;
+    }
+    .btn-wa-ticket {
+      background: #25d366;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.05rem;
+      padding: 0.9rem 1.25rem;
+      border-radius: 8px;
+      text-decoration: none;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-outline-ticket {
+      background: transparent;
+      color: #94a3b8;
+      border: 1px solid #475569;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .btn-outline-ticket:hover {
+      color: #fff;
+      border-color: #94a3b8;
+    }
+    .recent-ticket-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-left: 4px solid #10b981;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    @media print {
+      body {
+        background: #fff;
+        color: #000;
+      }
+      .ticket-nav, .no-print {
+        display: none !important;
+      }
+      .ticket-card {
+        background: #fff;
+        border: 2px solid #000;
+        box-shadow: none;
+        color: #000;
+      }
+      .t-field input, .t-field select, .t-field textarea {
+        background: #fff;
+        color: #000;
+        border: 1px solid #666;
+      }
+      .payout-calc-box {
+        background: #f0fdf4;
+        color: #14532d;
+        border: 1px solid #16a34a;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <nav class="ticket-nav">
+    <a href="/" class="brand">
+      <div class="brand-badge">MIX</div>
+      <div>
+        <h1>MixerShare UK</h1>
+        <p>Electronic Delivery Ticket &amp; Shift Radial Logger</p>
+      </div>
+    </a>
+    <div style="display:flex; gap:0.5rem; align-items:center;">
+      <a href="driver_radial_rates_sheet.html" target="_blank" class="btn-outline-ticket no-print" style="border-color:#fde047; color:#fde047;">📄 Rates Card (PDF)</a>
+      <a href="/" class="btn-outline-ticket no-print">⬅️ Back to Site</a>
+      <a href="portal.html" class="btn-outline-ticket no-print" style="border-color:#f59e0b; color:#f59e0b;">🔒 Operations Desk</a>
+      <a href="tel:07494867646" class="btn-outline-ticket no-print" style="border-color:#86efac; color:#86efac;">📞 07494 867646</a>
+    </div>
+  </nav>
+
+  <div class="ticket-container">
+    
+    <!-- Info Banner -->
+    <div style="background:#0f172a; border:1px solid #3b82f6; border-left:4px solid #3b82f6; border-radius:8px; padding:0.85rem 1.15rem; margin-bottom:1.25rem; font-size:0.88rem; line-height:1.5;">
+      <strong style="color:#60a5fa;">📍 Ready-Mix Load &amp; Radial Mileage Sign-off:</strong>
+      <span style="color:#cbd5e1;"> Use this mobile ticket to log batch docket details, one-way radial miles from plant to pour site, excess waiting time, and customer sign-off. Logged runs automatically calculate driver earnings and sync with Central Dispatch for guaranteed 24-hr Faster Payments.</span>
+    </div>
+
+    <!-- Ticket Form -->
+    <div class="ticket-card" id="ticket-main-form-card">
+      
+      <div class="ticket-badge-bar">
+        <div>
+          <span style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:700;">Ticket Reference:</span>
+          <strong id="ticket-ref-display" style="font-family:monospace; color:#f59e0b; font-size:1.15rem; margin-left:0.35rem;">MS-DT-Loading...</strong>
+        </div>
+        <div style="display:flex; align-items:center; gap:0.75rem; font-size:0.82rem; color:#cbd5e1;">
+          <span>📅 Date: <strong id="ticket-date-display">Today</strong></span>
+          <span class="badge" style="background:#16a34a; color:#fff; padding:2px 8px; border-radius:4px; font-weight:700;">Live Run</span>
+        </div>
+      </div>
+
+      <form id="delivery-ticket-form" onsubmit="submitDeliveryTicket(event)">
+        
+        <!-- SECTION 1: Driver & Truck Details -->
+        <div class="ticket-sec-title">
+          <span>🚛 1. Driver &amp; Vehicle Registration</span>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="t-field">
+            <label>Driver / Haulier Name *</label>
+            <input type="text" id="t-driver-name" placeholder="e.g. John Smith" required list="registered-drivers-list">
+            <datalist id="registered-drivers-list"></datalist>
+          </div>
+          <div class="t-field">
+            <label>Truck Reg (VRN) *</label>
+            <input type="text" id="t-vrn" placeholder="e.g. NK19 XYZ" required style="text-transform:uppercase;">
+          </div>
+          <div class="t-field">
+            <label>Vehicle Configuration *</label>
+            <select id="t-truck-type" onchange="recalculateTicketEarnings()">
+              <option value="8m3-rigid" selected>Standard 8m³ Rigid Mixer (32t)</option>
+              <option value="6m3-rigid">3-Axle 6m³ Rigid Mixer (26t)</option>
+              <option value="4m3-mini">2-Axle 4m³ Mini-Mixer (18t)</option>
+              <option value="32t-tipper">8x4 32t Tipper Wagon (Aggregates)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- SECTION 2: Batch Plant & Docket Spec -->
+        <div class="ticket-sec-title">
+          <span>🏭 2. Batch Plant &amp; Plant Delivery Docket</span>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="t-field">
+            <label>Load Sequence (2-Load Quota) *</label>
+            <select id="t-load-seq">
+              <option value="Load 1 of 2 (Per-Load Quota)" selected>Load 1 of 2 (Per-Load Quota)</option>
+              <option value="Load 2 of 2 (Quota Completed)">Load 2 of 2 (Quota Completed)</option>
+              <option value="Load 3 (Additional Load)">Load 3 (Additional Load)</option>
+              <option value="Load 4+ (Additional Load)">Load 4+ (Additional Load)</option>
+              <option value="Shift Load (Half/Full Day)">Shift Load (Half/Full Day)</option>
+            </select>
+          </div>
+          <div class="t-field">
+            <label>Reporting Concrete Plant *</label>
+            <input type="text" id="t-plant-name" placeholder="e.g. CEMEX Gateshead / Tarmac Birtley" required list="plants-list">
+            <datalist id="plants-list"></datalist>
+          </div>
+          <div class="t-field">
+            <label>Plant Docket / Ticket # *</label>
+            <input type="text" id="t-plant-docket" placeholder="e.g. #B-48192" required>
+          </div>
+          <div class="t-field">
+            <label>Batched Volume (m³ or Tonnes) *</label>
+            <input type="number" step="0.5" id="t-volume" value="6.0" min="0.5" max="25" required oninput="recalculateTicketEarnings()">
+          </div>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="t-field">
+            <label>Mix Specification *</label>
+            <input type="text" id="t-mix-spec" placeholder="e.g. C30 GEN3 20mm S3" required>
+          </div>
+          <div class="t-field">
+            <label>Slump &amp; Visual Inspection *</label>
+            <select id="t-slump-check">
+              <option value="120mm S3 (Good Workability)" selected>120mm S3 — Passed Visual &amp; Gauge Check</option>
+              <option value="150mm S4 (Wet / Flowing)">150mm S4 — High Workability / Flow</option>
+              <option value="90mm S2 (Dry / Stiff)">90mm S2 — Stiff / Low Slump</option>
+              <option value="Self-Compacting Concrete (SCC)">Self-Compacting Concrete (SCC)</option>
+            </select>
+          </div>
+          <div class="t-field">
+            <label>Water Added on Site (Litres)</label>
+            <input type="number" id="t-water-added" value="0" min="0" max="200" placeholder="0L (Customer Request)">
+          </div>
+        </div>
+
+        <!-- SECTION 3: Pour Site & Radial Travel Distance -->
+        <div class="ticket-sec-title">
+          <span>📍 3. Customer Pour Site &amp; Radial Distance</span>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="t-field">
+            <label>Contractor / Site Name *</label>
+            <input type="text" id="t-site-name" placeholder="e.g. Robertson CE - Silverlink Retail Park" required>
+          </div>
+          <div class="t-field">
+            <label>Site Postcode / Town *</label>
+            <input type="text" id="t-site-postcode" placeholder="e.g. NE28 9NT" required>
+          </div>
+        </div>
+
+        <!-- Radial Mileage Control -->
+        <div style="background:#0f172a; border:1px solid #38bdf8; border-radius:8px; padding:1rem; margin-bottom:1rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem; flex-wrap:wrap; gap:0.5rem;">
+            <div>
+              <strong style="color:#38bdf8; font-size:0.95rem;">One-Way Radial Distance (Plant to Pour Site):</strong>
+              <div style="font-size:0.75rem; color:#94a3b8;">Straight line radial or actual map delivery distance from the batch plant to pour location</div>
+            </div>
+            <span id="radial-badge" style="background:#0284c7; color:#fff; font-weight:800; font-size:1.15rem; padding:3px 12px; border-radius:6px;">6 Radial Miles</span>
+          </div>
+
+          <div style="display:flex; gap:0.5rem; align-items:center;">
+            <button type="button" class="btn-outline-ticket" style="padding:0.4rem 0.85rem; font-size:1.2rem; font-weight:900; background:#0284c7; color:#fff; border:none;" onclick="adjustRadial(-1)">−</button>
+            <input type="range" id="t-radial-slider" min="1" max="30" value="6" step="1" oninput="setRadial(this.value)" style="flex:1; height:8px; cursor:pointer;">
+            <button type="button" class="btn-outline-ticket" style="padding:0.4rem 0.85rem; font-size:1.2rem; font-weight:900; background:#0284c7; color:#fff; border:none;" onclick="adjustRadial(1)">+</button>
+            <input type="number" id="t-radial-input" value="6" min="1" max="50" oninput="setRadial(this.value)" style="width:75px; text-align:center; font-size:1rem; font-weight:800; padding:0.45rem; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px;">
+          </div>
+        </div>
+
+        <!-- Site Timing & Waiting Time -->
+        <div class="form-grid-3">
+          <div class="t-field">
+            <label>Site Arrival Time</label>
+            <input type="time" id="t-time-arrive">
+          </div>
+          <div class="t-field">
+            <label>Discharge Complete Time</label>
+            <input type="time" id="t-time-finish">
+          </div>
+          <div class="t-field">
+            <label>Site Waiting Time (Mins past 30m allowance)</label>
+            <input type="number" id="t-waiting-mins" value="0" min="0" max="300" placeholder="0 (30 mins free)" oninput="recalculateTicketEarnings()">
+          </div>
+        </div>
+
+        <!-- SECTION 4: Live Earnings / Driver Payout Calculation -->
+        <div class="payout-calc-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem;">
+            <div>
+              <span style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.5px; color:#a7f3d0; font-weight:700;">Automated Payout Calculation</span>
+              <h3 style="margin:0; font-size:1.35rem; color:#fff;">Guaranteed 24hr Faster Payments Due:</h3>
+            </div>
+            <strong id="calc-total-payout" style="font-size:1.85rem; color:#4ade80; font-family:monospace;">£115.00</strong>
+          </div>
+          
+          <div id="calc-breakdown-text" style="font-size:0.82rem; color:#d1fae5; line-height:1.5;">
+            ✔ Base Drop Fee: <strong>£85.00</strong> • Radial Distance: <strong>6 Miles @ £5.00/mi (£30.00)</strong> • Waiting Time: <strong>0 mins</strong>
+          </div>
+          <div style="font-size:0.75rem; color:#a7f3d0; margin-top:0.4rem;">
+            ⚡ Payout reconciled and transferred directly to supplying haulier via UK Faster Payments within 24 hours of ticket sign-off.
+          </div>
+        </div>
+
+        <!-- SECTION 5: Customer Sign-off Canvas -->
+        <div class="ticket-sec-title">
+          <span>✍️ 4. Customer / Site Receiver Sign-off</span>
+        </div>
+
+        <p style="font-size:0.8rem; color:#94a3b8; margin:0 0 0.5rem 0;">
+          The site receiver (Site Agent, Foreman or Groundworker) signs below with their finger or stylus confirming concrete received in satisfactory condition:
+        </p>
+
+        <div class="signature-wrap">
+          <canvas id="sig-canvas" width="600" height="160"></canvas>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.4rem; padding:0 0.25rem;">
+            <span style="font-size:0.75rem; color:#94a3b8;">Sign with finger or stylus on mobile screen</span>
+            <button type="button" class="btn-outline-ticket" onclick="clearSignature()" style="padding:0.25rem 0.65rem; font-size:0.75rem;">Clear Signature</button>
+          </div>
+        </div>
+
+        <div class="form-grid-2" style="margin-top:0.75rem;">
+          <div class="t-field">
+            <label>Receiver Printed Name *</label>
+            <input type="text" id="t-receiver-name" placeholder="e.g. Dave Miller" required>
+          </div>
+          <div class="t-field">
+            <label>Receiver Role / Job Title *</label>
+            <input type="text" id="t-receiver-role" placeholder="e.g. Site Manager / Groundwork Foreman" required>
+          </div>
+        </div>
+
+        <div class="t-field" style="margin-top:0.75rem;">
+          <label>Driver Notes / Discharge Remarks (Optional)</label>
+          <textarea id="t-notes" rows="2" placeholder="e.g. Discharged via 2 chutes into footings. Washed down into site washout skip as per environmental protocol."></textarea>
+        </div>
+
+        <!-- Submit Buttons -->
+        <div style="margin-top:1.5rem; display:flex; flex-direction:column; gap:0.75rem;">
+          <button type="submit" class="btn-submit-ticket" id="btn-save-ticket">
+            <span>💾 Complete &amp; Submit Digital Delivery Ticket</span>
+          </button>
+          <button type="button" class="btn-wa-ticket" onclick="sendWhatsAppTicketDirect()">
+            <span>💬 Send Docket Instantly to Operations Desk (Ian Henry: 07494 867646)</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Success Container (Shown after ticket submission) -->
+    <div class="ticket-card" id="ticket-success-card" style="display:none; text-align:center;">
+      <div style="font-size:3.5rem; line-height:1; margin-bottom:0.75rem;">📋 ✅</div>
+      <h2 style="color:#4ade80; font-size:1.5rem; margin:0 0 0.5rem 0;">Digital Delivery Ticket Logged &amp; Verified!</h2>
+      <p style="color:#cbd5e1; font-size:0.95rem; margin-bottom:1.25rem;">
+        Ticket Reference: <strong id="succ-ref" style="font-family:monospace; background:#0f172a; border:1px solid #334155; padding:3px 10px; border-radius:4px; color:#f59e0b; font-size:1.15rem;">MS-DT-0000</strong>
+      </p>
+
+      <div id="succ-summary" style="background:#0f172a; border:1px solid #334155; border-radius:8px; padding:1.25rem; text-align:left; font-size:0.88rem; line-height:1.7; margin-bottom:1.5rem;">
+        <!-- Populated dynamically -->
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:0.6rem;">
+        <button class="btn-wa-ticket" id="succ-wa-btn">
+          💬 Send Confirmation to Ian Henry (WhatsApp)
+        </button>
+        <button class="btn-outline-ticket" onclick="window.print()" style="padding:0.75rem; font-size:0.95rem; background:#1e293b; color:#fff;">
+          🖨️ Print / Save Ticket Copy
+        </button>
+        <button class="btn-outline-ticket" onclick="resetFormForNextLoad()" style="padding:0.75rem; font-size:0.95rem; border-color:#f59e0b; color:#f59e0b;">
+          ➕ Log Next Delivery Load
+        </button>
+        <a href="/" class="btn-outline-ticket" style="padding:0.75rem; font-size:0.95rem; text-align:center; text-decoration:none;">
+          ⬅️ Return to Public Fleet Board
+        </a>
+      </div>
+    </div>
+
+    <!-- Recent Tickets Logged on Device -->
+    <div class="ticket-card no-print">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+        <h3 style="margin:0; font-size:1.1rem; color:#f59e0b;">📋 Recent Tickets Logged Today</h3>
+        <span id="recent-ticket-count" style="font-size:0.82rem; color:#94a3b8;">0 tickets recorded</span>
+      </div>
+      <div id="recent-tickets-list">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Generate Unique Ticket Reference
+    let currentTicketRef = 'MS-DT-' + Math.floor(100000 + Math.random() * 900000);
+    let currentRadial = 6;
+    let signatureCanvas, sigCtx, isDrawing = false;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set Ticket Ref
+      document.getElementById('ticket-ref-display').innerText = '#' + currentTicketRef;
+      document.getElementById('ticket-date-display').innerText = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+      // Init times
+      const now = new Date();
+      const timeStr = now.toTimeString().substring(0, 5);
+      const arriveInput = document.getElementById('t-time-arrive');
+      const finishInput = document.getElementById('t-time-finish');
+      if (arriveInput) arriveInput.value = timeStr;
+      if (finishInput) finishInput.value = timeStr;
+
+      // Init Signature Canvas
+      initSignatureCanvas();
+
+      // Pre-fill registered drivers and plants from LocalStorage
+      preloadEntities();
+
+      // Calculate initial earnings
+      recalculateTicketEarnings();
+
+      // Render recent local tickets
+      renderRecentTickets();
+    });
+
+    // Radial Distance Controls
+    function setRadial(val) {
+      currentRadial = parseInt(val) || 1;
+      if (currentRadial < 1) currentRadial = 1;
+      if (currentRadial > 50) currentRadial = 50;
+      
+      document.getElementById('t-radial-slider').value = currentRadial;
+      document.getElementById('t-radial-input').value = currentRadial;
+      document.getElementById('radial-badge').innerText = currentRadial + (currentRadial === 1 ? ' Radial Mile' : ' Radial Miles');
+      
+      recalculateTicketEarnings();
+    }
+
+    function adjustRadial(delta) {
+      setRadial(currentRadial + delta);
+    }
+
+    // Recalculate Earnings
+    function recalculateTicketEarnings() {
+      const truckType = document.getElementById('t-truck-type').value;
+      const waitingMins = parseInt(document.getElementById('t-waiting-mins').value) || 0;
+
+      let baseFee = 85.00;
+      let perMile = 5.00;
+
+      if (truckType === '4m3-mini') {
+        baseFee = 60.00;
+        perMile = 3.75;
+      } else if (truckType === '32t-tipper') {
+        baseFee = 80.00;
+        perMile = 4.50;
+      } else if (truckType === '6m3-rigid') {
+        baseFee = 80.00;
+        perMile = 4.75;
+      }
+
+      const radialFee = currentRadial * perMile;
+      const waitingFee = waitingMins * 1.50; // £1.50 per min beyond 30 min free allowance
+      const totalDue = baseFee + radialFee + waitingFee;
+
+      document.getElementById('calc-total-payout').innerText = '£' + totalDue.toFixed(2);
+      document.getElementById('calc-breakdown-text').innerHTML = 
+        '✔ Base Drop Fee: <strong>£' + baseFee.toFixed(2) + '</strong> • Radial Mileage: <strong>' + currentRadial + ' Miles @ £' + perMile.toFixed(2) + '/mi (£' + radialFee.toFixed(2) + ')</strong>' +
+        (waitingMins > 0 ? ' • Billable Waiting Time: <strong>' + waitingMins + ' mins @ £1.50/m (£' + waitingFee.toFixed(2) + ')</strong>' : ' • Waiting Time: <strong>0 mins billable</strong>');
+    }
+
+    // Preload registered entities
+    function preloadEntities() {
+      try {
+        const driversList = document.getElementById('registered-drivers-list');
+        const plantsList = document.getElementById('plants-list');
+        
+        const subs = JSON.parse(localStorage.getItem('mixershare_submissions') || '[]');
+        const driverNames = new Set();
+        const plantNames = new Set();
+
+        subs.forEach(s => {
+          if (s.driver_name) driverNames.add(s.driver_name);
+          if (s.operator && !driverNames.has(s.operator)) driverNames.add(s.operator);
+          if (s.company) plantNames.add(s.company);
+          if (s.company_name && !plantNames.has(s.company_name)) plantNames.add(s.company_name);
+        });
+
+        // Add standard regional ready-mix plants if empty
+        plantNames.add('CEMEX Gateshead Batch Plant');
+        plantNames.add('Tarmac Birtley Ready-Mix');
+        plantNames.add('Breedon Sunderland Yard');
+        plantNames.add('Aggregate Industries Newcastle');
+        plantNames.add('Tyne ReadyMix Plant');
+
+        if (driversList) {
+          driversList.innerHTML = Array.from(driverNames).map(n => '<option value="' + n + '">').join('');
+        }
+        if (plantsList) {
+          plantsList.innerHTML = Array.from(plantNames).map(p => '<option value="' + p + '">').join('');
+        }
+      } catch(e) {
+        console.warn('Preload error:', e);
+      }
+    }
+
+    // Canvas Signature Implementation
+    function initSignatureCanvas() {
+      signatureCanvas = document.getElementById('sig-canvas');
+      if (!signatureCanvas) return;
+      sigCtx = signatureCanvas.getContext('2d');
+      sigCtx.lineWidth = 2.5;
+      sigCtx.lineCap = 'round';
+      sigCtx.strokeStyle = '#0f172a';
+
+      function getPos(e) {
+        const rect = signatureCanvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return {
+          x: (clientX - rect.left) * (signatureCanvas.width / rect.width),
+          y: (clientY - rect.top) * (signatureCanvas.height / rect.height)
+        };
+      }
+
+      function startDraw(e) {
+        isDrawing = true;
+        const pos = getPos(e);
+        sigCtx.beginPath();
+        sigCtx.moveTo(pos.x, pos.y);
+        e.preventDefault();
+      }
+
+      function moveDraw(e) {
+        if (!isDrawing) return;
+        const pos = getPos(e);
+        sigCtx.lineTo(pos.x, pos.y);
+        sigCtx.stroke();
+        e.preventDefault();
+      }
+
+      function stopDraw() {
+        isDrawing = false;
+      }
+
+      signatureCanvas.addEventListener('mousedown', startDraw);
+      signatureCanvas.addEventListener('mousemove', moveDraw);
+      window.addEventListener('mouseup', stopDraw);
+
+      signatureCanvas.addEventListener('touchstart', startDraw, { passive: false });
+      signatureCanvas.addEventListener('touchmove', moveDraw, { passive: false });
+      window.addEventListener('touchend', stopDraw);
+    }
+
+    function clearSignature() {
+      if (!signatureCanvas || !sigCtx) return;
+      sigCtx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+    }
+
+    // Submit Delivery Ticket
+    function submitDeliveryTicket(e) {
+      e.preventDefault();
+      
+      const driver = document.getElementById('t-driver-name').value.trim();
+      const vrn = document.getElementById('t-vrn').value.trim().toUpperCase();
+      const truckType = document.getElementById('t-truck-type').value;
+      const truckLabel = document.getElementById('t-truck-type').options[document.getElementById('t-truck-type').selectedIndex].text;
+      
+      const loadSeq = (document.getElementById('t-load-seq') && document.getElementById('t-load-seq').value) || 'Load 1 of 2';
+      const plant = document.getElementById('t-plant-name').value.trim();
+      const docket = document.getElementById('t-plant-docket').value.trim();
+      const volume = document.getElementById('t-volume').value.trim();
+      const mixSpec = document.getElementById('t-mix-spec').value.trim();
+      const slump = document.getElementById('t-slump-check').value;
+      const waterAdded = document.getElementById('t-water-added').value.trim() || '0';
+
+      const siteName = document.getElementById('t-site-name').value.trim();
+      const sitePostcode = document.getElementById('t-site-postcode').value.trim();
+      const arriveTime = document.getElementById('t-time-arrive').value;
+      const finishTime = document.getElementById('t-time-finish').value;
+      const waitingMins = parseInt(document.getElementById('t-waiting-mins').value) || 0;
+
+      const receiverName = document.getElementById('t-receiver-name').value.trim();
+      const receiverRole = document.getElementById('t-receiver-role').value.trim();
+      const notes = document.getElementById('t-notes').value.trim();
+      const totalPayout = document.getElementById('calc-total-payout').innerText;
+
+      // Extract Signature Data URI
+      let sigData = '';
+      try {
+        sigData = signatureCanvas.toDataURL();
+      } catch(err){}
+
+      const ticketRecord = {
+        id: 'ticket-' + Date.now(),
+        ticketRef: currentTicketRef,
+        timestamp: new Date().toISOString(),
+        driver: driver,
+        vrn: vrn,
+        truckType: truckType,
+        truckLabel: truckLabel,
+        plant: plant,
+        loadSeq: loadSeq,
+        plantDocket: docket,
+        volume: volume,
+        mixSpec: mixSpec,
+        slump: slump,
+        waterAdded: waterAdded,
+        siteName: siteName,
+        sitePostcode: sitePostcode,
+        radialMiles: currentRadial,
+        arriveTime: arriveTime,
+        finishTime: finishTime,
+        waitingMins: waitingMins,
+        receiverName: receiverName,
+        receiverRole: receiverRole,
+        notes: notes,
+        totalPayout: totalPayout,
+        signature: sigData,
+        status: 'Logged & Discharged (Pending 24hr Payout)'
+      };
+
+      // 1. Store in mixershare_tickets
+      try {
+        const storedTickets = JSON.parse(localStorage.getItem('mixershare_tickets') || '[]');
+        storedTickets.unshift(ticketRecord);
+        localStorage.setItem('mixershare_tickets', JSON.stringify(storedTickets));
+      } catch(err) {
+        console.warn('Storage save error:', err);
+      }
+
+      // 2. Also register in mixershare_submissions for universal portal indexing
+      try {
+        const subs = JSON.parse(localStorage.getItem('mixershare_submissions') || '[]');
+        subs.unshift({
+          id: ticketRecord.id,
+          timestamp: ticketRecord.timestamp,
+          formType: 'digital-delivery-ticket',
+          ticketRef: ticketRecord.ticketRef,
+          operator: driver,
+          driver_name: driver,
+          vrn: vrn,
+          vehicle: truckLabel,
+          company: plant,
+          location: sitePostcode,
+          scope: volume + 'm³ ' + mixSpec + ' to ' + siteName + ' (' + currentRadial + ' radial mi)',
+          payout: totalPayout,
+          status: 'Logged & Verified'
+        });
+        localStorage.setItem('mixershare_submissions', JSON.stringify(subs));
+      } catch(err) {}
+
+      // 3. Show Success Screen
+      showSuccessScreen(ticketRecord);
+    }
+
+    function showSuccessScreen(ticket) {
+      document.getElementById('ticket-main-form-card').style.display = 'none';
+      const succCard = document.getElementById('ticket-success-card');
+      succCard.style.display = 'block';
+
+      document.getElementById('succ-ref').innerText = '#' + ticket.ticketRef;
+      document.getElementById('succ-summary').innerHTML = 
+        '<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.5rem; margin-bottom:0.75rem;">' +
+        '  <div>🚛 <strong>Driver:</strong> ' + ticket.driver + ' [' + ticket.vrn + ']</div>' +
+        '  <div>🏭 <strong>Plant:</strong> ' + ticket.plant + '</div>' +
+        '  <div>📄 <strong>Plant Docket:</strong> #' + ticket.plantDocket + '</div>' +
+        '  <div>📦 <strong>Concrete Mix:</strong> ' + ticket.volume + 'm³ ' + ticket.mixSpec + '</div>' +
+        '  <div>📍 <strong>Pour Site:</strong> ' + ticket.siteName + ' (' + ticket.sitePostcode + ')</div>' +
+        '  <div>🧭 <strong>Radial Distance:</strong> <span style="color:#38bdf8; font-weight:800;">' + ticket.radialMiles + ' Radial Miles</span></div>' +
+        '  <div>⏱️ <strong>Waiting Time:</strong> ' + ticket.waitingMins + ' mins billable</div>' +
+        '  <div>✍️ <strong>Signed By:</strong> ' + ticket.receiverName + ' (' + ticket.receiverRole + ')</div>' +
+        '</div>' +
+        '<div style="background:#064e3b; padding:0.75rem 1rem; border-radius:6px; border:1px solid #10b981; display:flex; justify-content:space-between; align-items:center;">' +
+        '  <span>💰 <strong>Total Haulier Payout Calculated:</strong></span>' +
+        '  <strong style="font-size:1.4rem; color:#4ade80;">' + ticket.totalPayout + '</strong>' +
+        '</div>';
+
+      // Set WhatsApp Button handler
+      const waText = encodeURIComponent(
+        '📋 MixerShare UK Digital Delivery Ticket Sign-off\n' +
+        'Ref: #' + ticket.ticketRef + ' | Plant Docket: #' + ticket.plantDocket + '\n' +
+        'Driver: ' + ticket.driver + ' (' + ticket.truckLabel + ' - ' + ticket.vrn + ')\n' +
+        'Plant: ' + ticket.plant + '\n' +
+        'Jobsite: ' + ticket.siteName + ' (' + ticket.sitePostcode + ')\n' +
+        'Load: ' + ticket.volume + 'm³ ' + ticket.mixSpec + '\n' +
+        'Distance: ' + ticket.radialMiles + ' Radial Miles\n' +
+        'Waiting Time: ' + ticket.waitingMins + ' mins\n' +
+        'Customer Sign-Off: ' + ticket.receiverName + ' (' + ticket.receiverRole + ')\n' +
+        'Payout Due: ' + ticket.totalPayout + ' (24hr Faster Payments)\n' +
+        'Status: Discharged & Verified'
+      );
+
+      document.getElementById('succ-wa-btn').onclick = () => {
+        window.open('https://wa.me/447494867646?text=' + waText, '_blank');
+      };
+
+      renderRecentTickets();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function sendWhatsAppTicketDirect() {
+      const driver = document.getElementById('t-driver-name').value.trim() || 'Driver';
+      const vrn = document.getElementById('t-vrn').value.trim() || 'VRN';
+      const plant = document.getElementById('t-plant-name').value.trim() || 'Ready-Mix Plant';
+      const docket = document.getElementById('t-plant-docket').value.trim() || 'Pending';
+      const volume = document.getElementById('t-volume').value.trim() || '6.0';
+      const mixSpec = document.getElementById('t-mix-spec').value.trim() || 'C30';
+      const site = document.getElementById('t-site-name').value.trim() || 'Jobsite';
+      const totalPayout = document.getElementById('calc-total-payout').innerText;
+      const receiver = document.getElementById('t-receiver-name').value.trim() || 'Site Agent';
+
+      const waText = encodeURIComponent(
+        '📋 MixerShare Delivery Ticket Sign-off Notice\n' +
+        'Ref: #' + currentTicketRef + ' | Docket: #' + docket + '\n' +
+        'Driver: ' + driver + ' (' + vrn + ')\n' +
+        'Plant: ' + plant + '\n' +
+        'Site: ' + site + '\n' +
+        'Load: ' + volume + 'm³ ' + mixSpec + ' (' + currentRadial + ' Radial Miles)\n' +
+        'Sign-off: ' + receiver + '\n' +
+        'Total Payout Due: ' + totalPayout
+      );
+
+      window.open('https://wa.me/447494867646?text=' + waText, '_blank');
+    }
+
+    function resetFormForNextLoad() {
+      currentTicketRef = 'MS-DT-' + Math.floor(100000 + Math.random() * 900000);
+      document.getElementById('ticket-ref-display').innerText = '#' + currentTicketRef;
+      document.getElementById('t-plant-docket').value = '';
+      document.getElementById('t-site-name').value = '';
+      document.getElementById('t-site-postcode').value = '';
+      document.getElementById('t-waiting-mins').value = '0';
+      document.getElementById('t-receiver-name').value = '';
+      document.getElementById('t-notes').value = '';
+      clearSignature();
+
+      document.getElementById('ticket-success-card').style.display = 'none';
+      document.getElementById('ticket-main-form-card').style.display = 'block';
+      recalculateTicketEarnings();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderRecentTickets() {
+      const container = document.getElementById('recent-tickets-list');
+      const countEl = document.getElementById('recent-ticket-count');
+      if (!container) return;
+
+      try {
+        const stored = JSON.parse(localStorage.getItem('mixershare_tickets') || '[]');
+        if (countEl) countEl.innerText = stored.length + (stored.length === 1 ? ' ticket logged' : ' tickets logged');
+
+        if (stored.length === 0) {
+          container.innerHTML = '<p style="color:#64748b; font-size:0.85rem; margin:0;">No tickets logged on this device yet.</p>';
+          return;
+        }
+
+        container.innerHTML = stored.slice(0, 5).map(t => 
+          '<div class="recent-ticket-card">' +
+          '  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem; flex-wrap:wrap; gap:0.25rem;">' +
+          '    <strong style="color:#f59e0b; font-family:monospace;">#' + t.ticketRef + '</strong>' +
+          '    <span style="font-size:0.75rem; color:#94a3b8;">' + new Date(t.timestamp).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) + ' • ' + new Date(t.timestamp).toLocaleDateString('en-GB') + '</span>' +
+          '    <span class="badge" style="background:#065f46; color:#a7f3d0; padding:2px 8px; border-radius:4px; font-size:0.75rem;">' + t.totalPayout + '</span>' +
+          '  </div>' +
+          '  <div style="font-size:0.85rem; color:#cbd5e1;">' +
+          '    <strong>' + t.driver + '</strong> (' + t.vrn + ') • ' + t.plant + ' ➔ ' + t.siteName +
+          '  </div>' +
+          '  <div style="font-size:0.78rem; color:#94a3b8; margin-top:0.25rem;">' +
+          '    Docket: #' + t.plantDocket + ' • ' + t.volume + 'm³ • ' + t.radialMiles + ' Radial Miles • Sign-off: ' + t.receiverName +
+          '  </div>' +
+          '</div>'
+        ).join('');
+      } catch(e) {
+        console.warn('Render recent tickets error:', e);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MixerShare UK - Owner-Driver Printable Flyer</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 12mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      line-height: 1.4;
+      padding: 20px;
+    }
+    .print-bar {
+      max-width: 800px;
+      margin: 0 auto 20px auto;
+      text-align: right;
+    }
+    .print-btn {
+      background-color: #f59e0b;
+      color: #0f172a;
+      font-weight: 800;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .flyer-card {
+      background: #fff;
+      max-width: 800px;
+      margin: 0 auto;
+      border: 3px solid #0f172a;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      position: relative;
+    }
+    .header-banner {
+      background: #0f172a;
+      color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 5px solid #f59e0b;
+    }
+    .header-banner h1 {
+      font-size: 1.8rem;
+      color: #f59e0b;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 5px;
+    }
+    .header-banner p {
+      font-size: 1.1rem;
+      color: #e2e8f0;
+      font-weight: 700;
+    }
+    .contract-box {
+      background-color: #fef3c7;
+      border: 2px dashed #d97706;
+      border-radius: 8px;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+    }
+    .contract-box h2 {
+      font-size: 1.2rem;
+      color: #92400e;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .contract-box p {
+      font-size: 0.95rem;
+      color: #78350f;
+      line-height: 1.4;
+    }
+    .earnings-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .earning-card {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 15px;
+      border-top: 4px solid #2563eb;
+    }
+    .earning-card.highlight {
+      border-top-color: #16a34a;
+      background: #f0fdf4;
+    }
+    .earning-card h3 {
+      font-size: 1.05rem;
+      color: #0f172a;
+      margin-bottom: 5px;
+    }
+    .earning-price {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #16a34a;
+      margin-bottom: 4px;
+    }
+    .earning-sub {
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+    .protection-list {
+      background: #0f172a;
+      color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .protection-list h3 {
+      color: #f59e0b;
+      margin-bottom: 10px;
+      font-size: 1.15rem;
+    }
+    .protection-list ul {
+      list-style: none;
+    }
+    .protection-list li {
+      margin-bottom: 8px;
+      font-size: 0.92rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .footer-contact {
+      text-align: center;
+      border-top: 2px solid #e2e8f0;
+      padding-top: 15px;
+    }
+    .footer-contact h3 {
+      font-size: 1.2rem;
+      color: #0f172a;
+      margin-bottom: 5px;
+    }
+    .footer-contact p {
+      font-size: 0.95rem;
+      color: #475569;
+    }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .print-bar { display: none; }
+      .flyer-card { border: none; box-shadow: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="print-bar">
+    <button class="print-btn" onclick="window.print()">🖨️ Print / Save to PDF</button>
+  </div>
+
+  <div class="flyer-card">
+    <div class="header-banner">
+      <h1>🚛 ATTENTION HGV OWNER-DRIVERS!</h1>
+      <p>MAKE EXTRA CASH ON YOUR SLOW DAYS & QUIET MORNINGS</p>
+    </div>
+
+    <!-- Contract Clause Callout -->
+    <div class="contract-box">
+      <h2>📜 Did You Know About the "Quiet Period" Clause in Your Contract?</h2>
+      <p>Standard UK ready-mix franchise haulage agreements contain non-exclusive / standby clauses that <strong>permit owner-drivers to undertake independent secondary work</strong> during hours or days when your primary batch plant has no orders assigned to your truck! MixerShare UK lets you monetize those quiet hours safely.</p>
+    </div>
+
+    <!-- Earnings Breakdown Tiers -->
+    <h2 style="font-size: 1.2rem; margin-bottom: 10px; color:#0f172a;">💰 Flexible Dispatch Options & Dynamic Extensions</h2>
+    <div class="earnings-grid">
+      
+      <div class="earning-card">
+        <h3>⚡ Single Load Relief (8m³)</h3>
+        <div class="earning-price">£76.50 Base + £4.50/mi</div>
+        <div class="earning-sub">e.g. 6 radial miles = <strong>£103.50 NET CASH</strong> (Travel & fuel covered!)</div>
+      </div>
+
+      <div class="earning-card">
+        <h3>🔄 On-The-Fly Extension</h3>
+        <div class="earning-price">+Odd Base / +£58.50/hr</div>
+        <div class="earning-sub">Extend single load to double/triple or full day in 1 tap!</div>
+      </div>
+
+      <div class="earning-card highlight">
+        <h3>⏱️ Half-Day Hire (4 Hours)</h3>
+        <div class="earning-price">£288 NET PAYOUT</div>
+        <div class="earning-sub">All-inclusive shift relief. Zero hidden transfer fees!</div>
+      </div>
+
+      <div class="earning-card highlight">
+        <h3>🚚 Full-Day Shift (8 Hours)</h3>
+        <div class="earning-price">£468 NET PAYOUT</div>
+        <div class="earning-sub">Full shift relief rental. Guaranteed 24-hr bank payout!</div>
+      </div>
+
+    </div>
+
+    <!-- Protections -->
+    <div class="protection-list">
+      <h3>🛡️ Why Drivers Stay On MixerShare (Protected Pay & Insurance)</h3>
+      <ul>
+        <li><strong>⚡ Guaranteed 24-Hour Faster Payments:</strong> Money auto-deposited directly into your UK bank account within 24 hours of job finish. No 60-day debt chasing!</li>
+        <li><strong>🔒 Umbrella £10m Insurance Cover:</strong> Full public liability and indemnity cover provided on all platform bookings.</li>
+        <li><strong>🧲 FREE Neutral Magnetic Blanking Covers:</strong> Slap magnetic panels over your door logos in 10 seconds before scale-in. Zero brand conflict!</li>
+        <li><strong>🛡️ Digital White-Label Tickets:</strong> Jobsites only see the ordering plant's branding. Strict non-solicitation guarantees your customer relationships remain safe.</li>
+      </ul>
+    </div>
+
+    <!-- Contact & Sign Up Footer -->
+    <div class="footer-contact">
+      <h3>JOIN 100% FREE IN 2 MINUTES ONLINE</h3>
+      <p>Requirements: HGV Class 2 License | Driver CPC Card | £10m Public Liability Cover</p>
+      <p style="margin-top:8px; font-weight:bold; font-size:1.1rem; color:#16a34a;">
+        🌐 Register Online: www.mixershare.co.uk
+      </p>
+      <p style="margin-top:6px; font-weight:bold; font-size:1rem; color:#0f172a;">
+        📞 Call/SMS Ian Henry: 07494 867646 &nbsp;|&nbsp; ✉️ Email: mixershareuk@gmail.com
+      </p>
+      <p style="font-size:0.85rem; color:#64748b; margin-top:4px;">Operated by a 30-Year Ready-Mix Concrete Delivery Driver | www.mixershare.co.uk</p>
+    </div>
+  </div>
+
+</body>
+</html>

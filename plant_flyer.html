@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MixerShare UK - Plant Manager Sales Sheet</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 8mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      line-height: 1.28;
+      padding: 8px;
+    }
+    .print-bar {
+      max-width: 820px;
+      margin: 0 auto 10px auto;
+      text-align: right;
+    }
+    .print-btn {
+      background-color: #f59e0b;
+      color: #0f172a;
+      font-weight: 800;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .sheet-card {
+      background: #fff;
+      max-width: 820px;
+      margin: 0 auto;
+      border: 3px solid #0f172a;
+      border-radius: 10px;
+      padding: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    .header-banner {
+      background: #0f172a;
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      border-bottom: 4px solid #f59e0b;
+    }
+    .header-banner h1 {
+      font-size: 1.5rem;
+      color: #f59e0b;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .header-banner p {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+    .hero-box {
+      background: #f1f5f9;
+      border-left: 5px solid #2563eb;
+      padding: 9px 14px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .hero-box h2 {
+      font-size: 1.15rem;
+      color: #0f172a;
+      margin-bottom: 3px;
+    }
+    .hero-box p {
+      font-size: 0.86rem;
+      color: #334155;
+    }
+    .single-load-box {
+      background: #f0fdf4;
+      border: 2px solid #bbf7d0;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+    }
+    .single-load-box h3 {
+      font-size: 1rem;
+      color: #166534;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .single-load-box p {
+      font-size: 0.85rem;
+      color: #15803d;
+    }
+    .guarantee-box {
+      background: #fef3c7;
+      border: 2px dashed #d97706;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+    }
+    .guarantee-box h3 {
+      font-size: 0.96rem;
+      color: #92400e;
+      margin-bottom: 2px;
+    }
+    .guarantee-box p {
+      font-size: 0.84rem;
+      color: #78350f;
+    }
+    .rates-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 10px;
+      font-size: 0.82rem;
+    }
+    .rates-table th {
+      background: #0f172a;
+      color: #fff;
+      padding: 6px 8px;
+      text-align: left;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+    }
+    .rates-table td {
+      padding: 5px 8px;
+      border-bottom: 1px solid #cbd5e1;
+    }
+    .save-pill {
+      background-color: #dcfce7;
+      color: #16a34a;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.76rem;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .feature-card {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 8px 10px;
+    }
+    .feature-card h4 {
+      font-size: 0.85rem;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+    .feature-card p {
+      font-size: 0.76rem;
+      color: #475569;
+    }
+    .footer-contact {
+      text-align: center;
+      border-top: 2px solid #e2e8f0;
+      padding-top: 8px;
+    }
+    .footer-contact h3 {
+      font-size: 1rem;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+    .footer-contact p {
+      font-size: 0.84rem;
+      color: #334155;
+    }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .print-bar { display: none; }
+      .sheet-card { border: none; box-shadow: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="print-bar">
+    <button class="print-btn" onclick="window.print()">🖨️ Print / Save to PDF</button>
+  </div>
+
+  <div class="sheet-card">
+    
+    <!-- Header -->
+    <div class="header-banner">
+      <div>
+        <h1>MIXERSHARE UK</h1>
+        <p>B2B Ready-Mix Mixer & Tipper Fleet Capacity Exchange</p>
+      </div>
+      <div style="text-align:right;">
+        <span style="background:#f59e0b; color:#0f172a; font-weight:800; padding:4px 10px; border-radius:4px; font-size:0.8rem;">www.mixershare.co.uk</span>
+      </div>
+    </div>
+
+    <!-- Main Hero Hook -->
+    <div class="hero-box">
+      <h2>NEVER TURN AWAY A PROFITABLE CONCRETE OR AGGREGATE POUR AGAIN</h2>
+      <p>When an HGV driver calls in sick at 5:30 AM or a morning pour surges, don't walk away from £5,000+ in revenue. Get FORS/CLOCS verified 8m³, 6m³, 4m³ mixers or 32t tipper wagons on your scale within 60 minutes.</p>
+    </div>
+
+    <!-- Single Load Spot Relief Feature Box -->
+    <div class="single-load-box">
+      <h3>⚡ NEED JUST 1 EMERGENCY RELIEF LOAD? DON'T PAY FOR A FULL SHIFT!</h3>
+      <p>Why waste £750 on a full truck hire shift when you only need 1 load to finish a pour or cover a morning gap? Book a <strong>Single Load Spot Run</strong> (e.g. 6 radial miles = <strong>£82.50 for 4m³</strong> / <strong>£115 for 8m³</strong>) and save a £1,000+ concrete order from getting ruined!</p>
+    </div>
+
+    <!-- Zero Risk Trial Guarantee Callout -->
+    <div class="guarantee-box">
+      <h3>🛡️ THE 60-MINUTE ZERO-RISK TRIAL GUARANTEE</h3>
+      <p>Try MixerShare on your next emergency call-out. If our verified relief HGV driver is not on your weighbridge scale within 60 minutes of booking confirmation, <strong>YOUR FIRST LOAD IS 100% FREE.</strong></p>
+    </div>
+
+    <!-- Transparent UK Rate Table -->
+    <h3 style="font-size:1rem; color:#0f172a; margin-bottom:6px;">💷 TRANSPARENT SPOT & SHIFT RATES (ALL-INCLUSIVE SHIFTS • ZERO TRANSFER FEES)</h3>
+    <table class="rates-table">
+      <thead>
+        <tr>
+          <th>Truck Specification</th>
+          <th>Single Load Radial Spot Rate</th>
+          <th>Est. 6-Mile Single Load Cost</th>
+          <th>Half-Day (4 hrs - All-Inc)</th>
+          <th>Full Shift (8 hrs - All-Inc)</th>
+          <th>Your Shift Savings</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#f0fdf4;">
+          <td><strong>⚡ 2-Axle 4m³ Compact Mini-Mixer</strong></td>
+          <td>£60 base + £3.75/mi</td>
+          <td><strong>£82.50</strong></td>
+          <td>£250</td>
+          <td><strong>£420</strong></td>
+          <td><span class="save-pill">Save £230</span></td>
+        </tr>
+        <tr>
+          <td><strong>⚡ 3-Axle 6m³ Medium Rigid Mixer</strong></td>
+          <td>£75 base + £4.25/mi</td>
+          <td><strong>£100.50</strong></td>
+          <td>£295</td>
+          <td><strong>£480</strong></td>
+          <td><span class="save-pill">Save £220</span></td>
+        </tr>
+        <tr style="background:#eff6ff;">
+          <td><strong>⚡ Standard 8m³ 4-Axle Rigid Mixer</strong></td>
+          <td>£85 base + £5.00/mi</td>
+          <td><strong>£115.00</strong></td>
+          <td>£320</td>
+          <td><strong>£520</strong></td>
+          <td><span class="save-pill">Save £230</span></td>
+        </tr>
+        <tr style="background:#fffbe6;">
+          <td><strong>🚛 8x4 32t Tipper Wagon (20t Payload)</strong></td>
+          <td>£80 base + £4.50/mi</td>
+          <td><strong>£107.00</strong></td>
+          <td>£290</td>
+          <td><strong>£480</strong></td>
+          <td><span class="save-pill">Save £220</span></td>
+        </tr>
+        <tr style="background:#fffbe6;">
+          <td><strong>🏗️ 8x4 32t Grab Tipper Lorry</strong></td>
+          <td>£95 base + £5.50/mi</td>
+          <td><strong>£128.00</strong></td>
+          <td>£350</td>
+          <td><strong>£550</strong></td>
+          <td><span class="save-pill">Save £200</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 3 Core Plant Protections -->
+    <div class="features-grid">
+      <div class="feature-card">
+        <h4>🛡️ Blind Delivery Tickets</h4>
+        <p>Digital delivery tickets display exclusively YOUR plant's name and logo. Strict non-solicitation covenants protect your customer relationships.</p>
+      </div>
+
+      <div class="feature-card">
+        <h4>🧲 Neutral Magnetic Covers</h4>
+        <p>Relief drivers carry neutral magnetic panels in their cab, covering door logos in 10 seconds before scale-in to guarantee zero brand conflict.</p>
+      </div>
+
+      <div class="feature-card">
+        <h4>🔄 On-The-Fly Extensions</h4>
+        <p>Need a single load driver to stay for extra loads or hours? Tap "Extend Dispatch" in 1 click—no rate haggling out on the road.</p>
+      </div>
+    </div>
+
+    <!-- Contact & Order Call to Action -->
+    <div class="footer-contact">
+      <h3>REGISTER YOUR PLANT YARD 100% FREE — PAY ONLY WHEN YOU DISPATCH</h3>
+      <p style="margin-top:4px; font-weight:bold; font-size:1.05rem; color:#0f172a;">
+        🌐 Website: www.mixershare.co.uk &nbsp;|&nbsp; ✉️ Email: mixershareuk@gmail.com &nbsp;|&nbsp; 📞 Direct/SMS: 07494 867646
+      </p>
+      <p style="font-size:0.82rem; color:#64748b; margin-top:4px;">
+        Operated by Ian Henry (30 Years Ready-Mix Concrete Delivery Experience) | Zero Subscription Fees | Pure Pay-Per-Dispatch
+      </p>
+    </div>
+
+  </div>
+
+</body>
+</html>

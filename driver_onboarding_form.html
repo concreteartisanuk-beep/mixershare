@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MixerShare UK - Owner-Driver Onboarding Form</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 8mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+      line-height: 1.25;
+      padding: 8px;
+    }
+    .print-bar {
+      max-width: 820px;
+      margin: 0 auto 10px auto;
+      text-align: right;
+    }
+    .print-btn {
+      background-color: #f59e0b;
+      color: #0f172a;
+      font-weight: 800;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .sheet-card {
+      background: #fff;
+      max-width: 820px;
+      margin: 0 auto;
+      border: 3px solid #0f172a;
+      border-radius: 10px;
+      padding: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    .header-banner {
+      background: #0f172a;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      border-bottom: 4px solid #f59e0b;
+    }
+    .header-banner h1 {
+      font-size: 1.4rem;
+      color: #f59e0b;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .header-banner p {
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+    .section-title {
+      font-size: 0.9rem;
+      color: #0f172a;
+      text-transform: uppercase;
+      font-weight: 800;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 3px;
+      margin: 8px 0 6px 0;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+    .field-row {
+      margin-bottom: 6px;
+    }
+    .field-label {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #475569;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .field-box, .field-input {
+      border: 1px solid #94a3b8;
+      border-radius: 4px;
+      height: 36px;
+      padding: 6px 10px;
+      font-size: 16px; /* Prevents mobile Safari auto-zoom */
+      background: #fff;
+      color: #0f172a;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .field-input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+    }
+    select.field-input {
+      height: 38px;
+    }
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 4px 0 8px 0;
+      font-size: 0.85rem;
+      color: #1e293b;
+    }
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .checkbox-item input[type="checkbox"], .checkbox-item input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #2563eb;
+      cursor: pointer;
+    }
+    .check-box-sq {
+      width: 13px;
+      height: 13px;
+      border: 1.5px solid #0f172a;
+      display: inline-block;
+      border-radius: 2px;
+    }
+    .bank-box {
+      background: #eff6ff;
+      border: 1.5px solid #bfdbfe;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+    }
+    .bank-box h4 {
+      font-size: 0.88rem;
+      color: #1e40af;
+      margin-bottom: 6px;
+    }
+    .declaration-box {
+      background: #fef3c7;
+      border: 1px dashed #d97706;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      font-size: 0.78rem;
+      color: #78350f;
+      line-height: 1.35;
+    }
+    .sig-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 12px;
+      margin-top: 6px;
+    }
+    .footer-line {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 12px;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 6px;
+    }
+    .submit-btn {
+      background: #16a34a;
+      color: #fff;
+      font-weight: 800;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.05rem;
+      width: 100%;
+      margin-top: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: background 0.2s;
+    }
+    .submit-btn:hover {
+      background: #15803d;
+    }
+    .success-alert {
+      background: #f0fdf4;
+      border: 2px solid #86efac;
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+      margin-top: 1rem;
+      color: #166534;
+    }
+    @media (max-width: 650px) {
+      .grid-2, .grid-3, .sig-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .header-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .print-bar {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+    }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .print-bar, .submit-btn, .nav-back-link { display: none !important; }
+      .sheet-card { border: none; box-shadow: none; padding: 0; }
+      .field-input { border: 1px solid #64748b !important; height: 26px !important; padding: 2px 4px !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="print-bar">
+    <a href="/" class="nav-back-link" style="color:#0f172a; text-decoration:none; font-weight:700; padding:8px 12px; background:#e2e8f0; border-radius:6px; font-size:0.9rem;">← Return to Live Fleet Exchange</a>
+    <button class="print-btn" onclick="window.print()">🖨️ Print / Save to PDF</button>
+  </div>
+
+  <div class="sheet-card" id="form-container">
+    
+    <!-- Header -->
+    <div class="header-banner">
+      <div>
+        <h1>MIXERSHARE UK</h1>
+        <p>HGV Owner-Driver & Haulier Fleet Onboarding Registration</p>
+      </div>
+      <div style="text-align:right;">
+        <span style="background:#f59e0b; color:#0f172a; font-weight:800; padding:4px 8px; border-radius:4px; font-size:0.75rem;">FREE DRIVER ONBOARDING</span>
+      </div>
+    </div>
+
+    <form name="driver-full-onboarding" method="POST" data-netlify="true" action="/success.html" id="onboarding-form">
+      <input type="hidden" name="form-name" value="driver-full-onboarding">
+
+      <!-- Section 1 -->
+      <div class="section-title">1. Driver & Haulier Business Details</div>
+      <div class="grid-2">
+        <div class="field-row">
+          <label class="field-label" for="driver_name">Driver Full Name *</label>
+          <input type="text" id="driver_name" name="driver_name" class="field-input" placeholder="e.g. Dave Wilson" required>
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="company_name">Trading / Company Name (if applicable)</label>
+          <input type="text" id="company_name" name="company_name" class="field-input" placeholder="e.g. D.W. Haulage Ltd">
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="field-row">
+          <label class="field-label" for="mobile">Mobile Phone (For Dispatch SMS) *</label>
+          <input type="tel" id="mobile" name="mobile" class="field-input" placeholder="07494 867646" required>
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="email">Email Address *</label>
+          <input type="email" id="email" name="email" class="field-input" placeholder="dispatch@yourfleet.co.uk" required>
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="postcode">Home Base Town / Yard Postcode *</label>
+          <input type="text" id="postcode" name="postcode" class="field-input" placeholder="e.g. Gateshead / NE8 1AA" required>
+        </div>
+      </div>
+
+      <!-- Section 2 -->
+      <div class="section-title">2. Vehicle Specification & Fleet Capacity</div>
+      <div class="grid-2">
+        <div class="field-row">
+          <label class="field-label" for="vehicle_type">Primary Vehicle Type *</label>
+          <select id="vehicle_type" name="vehicle_type" class="field-input" required>
+            <option value="Standard 8m³ 4-Axle Rigid" selected>Standard 8m³ 4-Axle Rigid Mixer</option>
+            <option value="2-Axle 4m³ Mini-Mixer">2-Axle 4m³ Compact Mini-Mixer</option>
+            <option value="3-Axle 6m³ Medium Rigid">3-Axle 6m³ Medium Rigid Mixer</option>
+            <option value="8x4 32t Tipper Wagon">8x4 32-Tonne Tipper Wagon</option>
+            <option value="8x4 32t Grab Lorry">8x4 32-Tonne Grab Tipper Lorry</option>
+            <option value="Mixed Fleet">Mixed Fleet (Multiple Mixers &amp; Tippers)</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="vrn">Vehicle Registration Number(s) [VRN] *</label>
+          <input type="text" id="vrn" name="vrn" class="field-input" placeholder="e.g. AB12 CDE" required>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field-row">
+          <label class="field-label" for="franchise_livery">Primary Franchise Livery (if applicable)</label>
+          <select id="franchise_livery" name="franchise_livery" class="field-input">
+            <option value="Plain / White">Plain / Neutral White / Unliveried</option>
+            <option value="CEMEX">CEMEX UK Franchised</option>
+            <option value="Tarmac">Tarmac Franchised</option>
+            <option value="Breedon">Breedon Franchised</option>
+            <option value="Heidelberg">Heidelberg Materials Franchised</option>
+            <option value="Independent">Independent Concrete Producer</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="drum_gearbox">Drum Capacity / Mixer Brand</label>
+          <input type="text" id="drum_gearbox" name="drum_gearbox" class="field-input" placeholder="e.g. 8m³ Schwing Stetter / Liebherr">
+        </div>
+      </div>
+
+      <!-- Section 3 -->
+      <div class="section-title">3. Compliance & Safety Verification</div>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" name="hgv_licence" checked required> Valid UK HGV Class 2 (Category C) License</label>
+        <label class="checkbox-item"><input type="checkbox" name="cpc_card" checked required> Current Driver CPC Qualification Card</label>
+        <label class="checkbox-item"><input type="checkbox" name="insurance" checked required> Goods in Transit / Motor / Public Liability Insurance</label>
+        <label class="checkbox-item"><input type="checkbox" name="fors_clocs"> FORS / CLOCS Accreditation (Bronze / Silver / Gold)</label>
+      </div>
+
+      <!-- Section 4 -->
+      <div class="bank-box">
+        <h4>💳 4. UK Bank Details for 24-Hour Faster Payments Payouts</h4>
+        <p style="font-size:0.75rem; color:#1e3a8a; margin-bottom:8px;">Payouts are disbursed within 24 hours of ticket sign-off directly via Stripe Connect UK.</p>
+        <div class="grid-3">
+          <div class="field-row">
+            <label class="field-label" for="bank_name" style="color:#1e40af;">Bank Account Name *</label>
+            <input type="text" id="bank_name" name="bank_name" class="field-input" placeholder="e.g. Dave Wilson or DW Haulage" required>
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="sort_code" style="color:#1e40af;">Sort Code *</label>
+            <input type="text" id="sort_code" name="sort_code" class="field-input" placeholder="00-00-00" required>
+          </div>
+          <div class="field-row">
+            <label class="field-label" for="account_number" style="color:#1e40af;">Account Number *</label>
+            <input type="text" id="account_number" name="account_number" class="field-input" placeholder="12345678" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 5 -->
+      <div class="declaration-box">
+        <strong>DRIVER DECLARATION & NON-CIRCUMVENTION UNDERTAKING:</strong><br>
+        I declare that all information supplied is complete and true. When accepting MixerShare relief dispatches outside my primary contract, I agree to apply neutral magnetic door covers over pre-existing logos prior to scale-in. I agree not to solicit or accept offline direct work from plants or sites introduced to me via MixerShare for 12 months.
+      </div>
+
+      <div class="sig-grid">
+        <div class="field-row">
+          <label class="field-label" for="signature">Driver Signature (Type Full Name) *</label>
+          <input type="text" id="signature" name="signature" class="field-input" placeholder="Type your full legal name" required>
+        </div>
+        <div class="field-row">
+          <label class="field-label" for="sig_date">Date *</label>
+          <input type="date" id="sig_date" name="sig_date" class="field-input" required>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submit-btn">✅ Submit Haulier Onboarding (Free)</button>
+    </form>
+
+    <div class="footer-line">
+      MixerShare UK Ltd • Founder & Operations: Ian Henry • www.mixershare.co.uk • mixershareuk@gmail.com • 07494 867646
+    </div>
+
+  </div>
+
+  <script>
+    // Set today's date automatically
+    document.addEventListener("DOMContentLoaded", () => {
+      const dateInput = document.getElementById("sig_date");
+      if (dateInput && !dateInput.value) {
+        dateInput.value = new Date().toISOString().split("T")[0];
+      }
+    });
+
+    // Handle AJAX Form Submission cleanly on mobile and desktop
+    const onboardForm = document.getElementById("onboarding-form");
+    if (onboardForm) {
+      onboardForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById("submit-btn");
+        const originalText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = "⏳ Processing Onboarding...";
+
+        const formData = new FormData(onboardForm);
+        const dataObj = {};
+        formData.forEach((val, key) => { dataObj[key] = val; });
+
+        // Save backup to localStorage
+        try {
+          const existing = JSON.parse(localStorage.getItem("mixershare_submissions") || "[]");
+          existing.unshift({ timestamp: new Date().toISOString(), formType: "haulier-full-onboarding", ...dataObj });
+          localStorage.setItem("mixershare_submissions", JSON.stringify(existing));
+        } catch(err) {
+          console.warn("Storage write error:", err);
+        }
+
+        // Post to Netlify / Server
+        fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(formData).toString()
+        })
+        .then(res => {
+          console.log("Onboarding submitted:", res.status);
+        })
+        .catch(err => {
+          console.log("Submitted locally:", err);
+        })
+        .finally(() => {
+          // Render immediate green confirmation card
+          const container = document.getElementById("form-container");
+          container.innerHTML = `
+            <div class="success-alert">
+              <div style="font-size:3.5rem; line-height:1; margin-bottom:0.75rem;">🚛 ✅</div>
+              <h2 style="font-size:1.5rem; color:#166534; margin-bottom:0.5rem; font-weight:800;">Haulier Onboarding Successfully Received!</h2>
+              <p style="color:#15803d; font-size:1rem; margin-bottom:1.25rem;">Welcome <strong>${dataObj.driver_name || 'Driver'}</strong> (${dataObj.company_name || 'Owner-Driver'}) to the MixerShare UK Network.</p>
+              
+              <div style="background:#fff; border:1px solid #bbf7d0; border-radius:8px; padding:1.25rem; text-align:left; margin-bottom:1.5rem; font-size:0.92rem; color:#14532d; line-height:1.6;">
+                <p>✔ <strong>Vehicle Spec:</strong> ${dataObj.vehicle_type || 'Rigid Mixer'}</p>
+                <p>✔ <strong>Vehicle VRN:</strong> ${dataObj.vrn || 'On File'}</p>
+                <p>✔ <strong>Dispatch Phone:</strong> ${dataObj.mobile || '07494 867646'}</p>
+                <p>✔ <strong>Faster Payments Payouts:</strong> Registered to Bank Account ending in ****${(dataObj.account_number || '1234').slice(-4)}</p>
+                <p>✔ <strong>Next Step:</strong> Ian Henry will verify your insurance/CPC credentials and activate your live dispatch notifications.</p>
+              </div>
+
+              <div style="display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap;">
+                <a href="/" class="submit-btn" style="background:#0f172a; color:#f59e0b; text-decoration:none; display:inline-block; width:auto; padding:10px 20px;">← Return to Live Fleet Exchange</a>
+                <a href="tel:07494867646" class="submit-btn" style="background:#16a34a; text-decoration:none; display:inline-block; width:auto; padding:10px 20px;">📞 Call Dispatch Desk (07494 867646)</a>
+                <a href="https://wa.me/447494867646?text=Hi%20Ian,%20I%20just%20completed%20the%20MixerShare%20onboarding%20form" target="_blank" class="submit-btn" style="background:#25d366; text-decoration:none; display:inline-block; width:auto; padding:10px 20px;">💬 WhatsApp Operations</a>
+              </div>
+            </div>
+          `;
+        });
+      });
+    }
+  </script>
+</body>
+</html>

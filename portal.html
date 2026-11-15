@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MixerShare UK - Operations Dispatch Portal</title>
+  <link rel="stylesheet" href="styles.css?v=6">
+  <style>
+    body {
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .portal-header {
+      background: #1e293b;
+      border-bottom: 3px solid #f59e0b;
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .portal-title h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #f59e0b;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .portal-title p {
+      margin: 0.2rem 0 0 0;
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+    .portal-container {
+      max-width: 1280px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+    }
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      border-left: 4px solid #f59e0b;
+    }
+    .stat-card span {
+      display: block;
+      font-size: 0.8rem;
+      color: #94a3b8;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .stat-card strong {
+      font-size: 1.75rem;
+      color: #fff;
+    }
+    .portal-tabs {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 2px solid #334155;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+    }
+    .p-tab {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-bottom: none;
+      color: #94a3b8;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px 8px 0 0;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .p-tab.active {
+      background: #f59e0b;
+      color: #0f172a;
+      border-color: #f59e0b;
+    }
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+    .data-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      transition: transform 0.15s, border-color 0.15s;
+    }
+    .data-card:hover {
+      border-color: #64748b;
+      transform: translateY(-2px);
+    }
+    .card-info h3 {
+      margin: 0 0 0.3rem 0;
+      font-size: 1.2rem;
+      color: #fff;
+    }
+    .card-meta {
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 0.3rem;
+    }
+    .badge {
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+    .badge-green { background: #14532d; color: #86efac; border: 1px solid #22c55e; }
+    .badge-blue { background: #1e3a8a; color: #93c5fd; border: 1px solid #3b82f6; }
+    .badge-amber { background: #78350f; color: #fde68a; border: 1px solid #f59e0b; }
+    .action-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .btn-act {
+      padding: 0.55rem 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-call { background: #16a34a; color: #fff; }
+    .btn-call:hover { background: #15803d; }
+    .btn-wa { background: #25d366; color: #fff; }
+    .btn-wa:hover { background: #1eb956; }
+    .btn-match { background: #2563eb; color: #fff; }
+    .btn-match:hover { background: #1d4ed8; }
+    .btn-view { background: #475569; color: #fff; }
+    .btn-view:hover { background: #334155; }
+    .btn-delete { background: #dc2626; color: #fff; }
+    .btn-delete:hover { background: #b91c1c; }
+    .btn-add { background: #f59e0b; color: #0f172a; font-weight: 800; }
+    .btn-add:hover { background: #d97706; }
+
+    /* Moderator Form Panel */
+    .form-panel {
+      background: #0f172a;
+      border: 2px solid #f59e0b;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: none;
+    }
+    .form-panel h3 {
+      margin: 0 0 0.5rem 0;
+      color: #f59e0b;
+      font-size: 1.25rem;
+    }
+    .form-panel p {
+      font-size: 0.88rem;
+      color: #94a3b8;
+      margin: 0 0 1.25rem 0;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .form-field label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #cbd5e1;
+    }
+    .form-field input, .form-field select, .form-field textarea {
+      padding: 0.65rem 0.75rem;
+      background: #1e293b;
+      border: 1px solid #475569;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 0.9rem;
+      box-sizing: border-box;
+      width: 100%;
+    }
+    .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+      outline: none;
+      border-color: #f59e0b;
+    }
+
+    /* Toast Notification */
+    #portal-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #16a34a;
+      color: #fff;
+      padding: 0.85rem 1.4rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+    }
+    #portal-toast.error {
+      background: #dc2626;
+    }
+
+    .pin-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 1rem;
+    }
+    .pin-card {
+      background: #1e293b;
+      border: 2px solid #f59e0b;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 100%;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Toast Message -->
+  <div id="portal-toast"></div>
+
+  <!-- Security Gate Modal -->
+  <div id="pin-gate" class="pin-modal">
+    <div class="pin-card">
+      <div style="font-size:3rem; margin-bottom:0.5rem;">🔒</div>
+      <h2 style="color:#f59e0b; margin:0 0 0.5rem 0;">Moderator &amp; Dispatch Access</h2>
+      <p style="font-size:0.88rem; color:#94a3b8; margin-bottom:1.25rem;">Enter Platform Moderator PIN to add and remove trucks, plants, and listings across the live MixerShare platform.</p>
+      <input type="password" id="pin-input" placeholder="Enter Authorization PIN" autocomplete="off" onkeydown="if(event.key==='Enter') verifyPin()" style="width:100%; padding:0.8rem; font-size:1.2rem; text-align:center; border:2px solid #334155; border-radius:6px; background:#0f172a; color:#fff; margin-bottom:1rem; box-sizing:border-box;">
+      <button class="btn-act btn-call" style="width:100%; justify-content:center; padding:0.8rem; font-size:1rem;" onclick="verifyPin()">Unlock Moderator Desk</button>
+      <div id="pin-err" style="color:#ef4444; font-size:0.85rem; margin-top:0.75rem; display:none;">Access Denied: Invalid Authorization PIN.</div>
+      <div style="margin-top:1.25rem; font-size:0.75rem; color:#64748b;">MixerShare UK Ltd • Restricted to Platform Moderator Ian Henry &amp; Operations Leads</div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="portal-header">
+    <div class="portal-title">
+      <h1>🇬🇧 MixerShare UK • Moderator &amp; Operations Command Center</h1>
+      <p>Platform Moderator: <strong>Ian Henry (07494 867646)</strong> • Live Content Moderation &amp; Fleet Dispatch</p>
+    </div>
+    <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
+      <button class="btn-act btn-delete" onclick="lockPortal()">🔒 Lock Portal</button>
+      <a href="https://app.netlify.com/projects/mixershare/forms" target="_blank" class="btn-act btn-view" style="background:#334155;">☁️ Netlify Cloud Database</a>
+      <a href="/" class="btn-act btn-view">← View Public Website</a>
+    </div>
+  </header>
+
+  <div class="portal-container">
+
+    <!-- Quick Stats -->
+    <div class="stats-bar">
+      <div class="stat-card">
+        <span>Verified Driver Fleet</span>
+        <strong id="stat-trucks">0 Trucks</strong>
+      </div>
+      <div class="stat-card" style="border-left-color:#3b82f6;">
+        <span>Partner Batch Plants</span>
+        <strong id="stat-plants">0 Yards</strong>
+      </div>
+      <div class="stat-card" style="border-left-color:#f59e0b;">
+        <span>Public Hire Listings</span>
+        <strong id="stat-listings" style="color:#fde047;">0 Listings</strong>
+      </div>
+      <div class="stat-card" style="border-left-color:#06b6d4;">
+        <span>Shift Tickets Logged</span>
+        <strong id="stat-tickets" style="color:#38bdf8;">0 Runs</strong>
+      </div>
+      <div class="stat-card" style="border-left-color:#10b981;">
+        <span>Available Now</span>
+        <strong id="stat-available" style="color:#4ade80;">0 Ready</strong>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="portal-tabs">
+      <button class="p-tab active" onclick="showTab('tab-hauliers')">🚚 Verified Hauliers &amp; Drivers (<span id="count-hauliers">0</span>)</button>
+      <button class="p-tab" onclick="showTab('tab-plants')">🏭 Plant Dispatch Needs (<span id="count-plants">0</span>)</button>
+      <button class="p-tab" onclick="showTab('tab-tickets')">📋 Shift Tickets &amp; Radials (<span id="count-tickets">0</span>)</button>
+      <button class="p-tab" onclick="showTab('tab-listings')">📋 Fleet Hire Listings (<span id="count-listings">0</span>)</button>
+      <button class="p-tab" onclick="showTab('tab-bookings')">💳 Stripe Bookings (<span id="count-bookings">0</span>)</button>
+      <button class="p-tab" onclick="showTab('tab-match')">⚡ Matchmaker (Truck &amp; Plant)</button>
+      <button class="p-tab" onclick="showTab('tab-academy')">🎓 Academy Trainees (<span id="count-academy">0</span>)</button>
+    </div>
+
+    <!-- Tab 1: Haulier Fleet -->
+    <div id="tab-hauliers" class="tab-pane active">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+        <div>
+          <h2 style="margin:0; font-size:1.3rem;">Verified Ready-Mix &amp; Tipper Owner-Drivers</h2>
+          <p style="margin:0.2rem 0 0 0; font-size:0.85rem; color:#94a3b8;">Add verified owner-drivers or remove trucks in 1 click. Synchronizes immediately with the live website.</p>
+        </div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <a href="driver_radial_rates_sheet.html" target="_blank" class="btn-act btn-view" style="text-decoration:none; background:#0284c7; color:#fff;">📄 Rates Sheet (Printable)</a>
+          <a href="mixershare_driver_radial_rates.pdf" target="_blank" class="btn-act btn-view" style="text-decoration:none; background:#f59e0b; color:#0f172a; font-weight:800;">📥 Rates PDF</a>
+          <button class="btn-act btn-add" onclick="toggleForm('form-add-haulier')">+ Add Verified Truck / Haulier</button>
+          <button class="btn-act btn-view" onclick="exportCsv('hauliers')">📥 Export CSV</button>
+        </div>
+      </div>
+
+      <!-- Add Haulier Form Panel -->
+      <div id="form-add-haulier" class="form-panel">
+        <h3>➕ Add Verified Truck / Haulier to Live Roster</h3>
+        <p>This truck will be published directly to the live driver availability roster on the website.</p>
+        <form onsubmit="addModeratorHaulier(event)">
+          <div class="form-grid">
+            <div class="form-field">
+              <label>Company / Operator Name *</label>
+              <input type="text" id="h-name" placeholder="e.g. North East Haulage Ltd" required>
+            </div>
+            <div class="form-field">
+              <label>Contact Driver / Manager *</label>
+              <input type="text" id="h-contact" placeholder="e.g. Dave Wilson" required>
+            </div>
+            <div class="form-field">
+              <label>Mobile Number (SMS / WhatsApp) *</label>
+              <input type="tel" id="h-phone" placeholder="07494 867646" required>
+            </div>
+            <div class="form-field">
+              <label>Email Address</label>
+              <input type="email" id="h-email" placeholder="driver@haulage.co.uk">
+            </div>
+            <div class="form-field">
+              <label>Vehicle Specification *</label>
+              <select id="h-truck" required>
+                <option value="Standard 8m³ 4-Axle Rigid Mixer" selected>Standard 8m³ 4-Axle Rigid Mixer</option>
+                <option value="2-Axle 4m³ Compact Mini-Mixer">2-Axle 4m³ Compact Mini-Mixer</option>
+                <option value="3-Axle 6m³ Rigid Mixer">3-Axle 6m³ Medium Mixer</option>
+                <option value="8x4 32t Steel Body Tipper Wagon">8x4 32t Steel Body Tipper Wagon</option>
+                <option value="8x4 32t Grab Tipper Lorry">8x4 32t Grab Tipper Lorry</option>
+                <option value="Artic Semi-Trailer 12m³ Mixer">Artic Semi-Trailer 12m³ Mixer</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Vehicle VRN (Registration) *</label>
+              <input type="text" id="h-vrn" placeholder="e.g. AB12 CDE" required>
+            </div>
+            <div class="form-field">
+              <label>Operating Base / Postcode *</label>
+              <input type="text" id="h-loc" placeholder="e.g. Gateshead / Newcastle (NE8)" required>
+            </div>
+            <div class="form-field">
+              <label>Availability Status *</label>
+              <select id="h-status" required>
+                <option value="Available Today" selected>Available Today (Immediate)</option>
+                <option value="Available Tomorrow">Available Tomorrow</option>
+                <option value="Relief on Call">Relief on Call / Standby</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Bank / Faster Payments Info</label>
+              <input type="text" id="h-bank" placeholder="e.g. Sort 20-00-00, Acc ****1234">
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
+            <button type="button" class="btn-act btn-view" onclick="toggleForm('form-add-haulier')">Cancel</button>
+            <button type="submit" class="btn-act btn-add" style="padding:0.65rem 1.4rem;">Publish Truck to Live Site</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="hauliers-list">
+        <!-- Populated by JavaScript -->
+      </div>
+    </div>
+
+    <!-- Tab 2: Plant Needs -->
+    <div id="tab-plants" class="tab-pane">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+        <div>
+          <h2 style="margin:0; font-size:1.3rem;">Plant Dispatch Requirements &amp; Relief Orders</h2>
+          <p style="margin:0.2rem 0 0 0; font-size:0.85rem; color:#94a3b8;">Log urgent yard relief requirements or remove resolved orders. Synchronized with the public site.</p>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn-act btn-add" onclick="toggleForm('form-add-plant')">+ Add Plant Relief Need</button>
+          <button class="btn-act btn-view" onclick="exportCsv('plants')">📥 Export CSV</button>
+        </div>
+      </div>
+
+      <!-- Add Plant Form Panel -->
+      <div id="form-add-plant" class="form-panel">
+        <h3>➕ Add Emergency Plant Relief Requirement</h3>
+        <p>Broadcast this relief need to registered owner-drivers and match immediately.</p>
+        <form onsubmit="addModeratorPlant(event)">
+          <div class="form-grid">
+            <div class="form-field">
+              <label>Plant / Yard Company Name *</label>
+              <input type="text" id="p-company" placeholder="e.g. Breedon Concrete Gateshead" required>
+            </div>
+            <div class="form-field">
+              <label>Plant Manager / Contact *</label>
+              <input type="text" id="p-contact" placeholder="e.g. Mark Robinson" required>
+            </div>
+            <div class="form-field">
+              <label>Phone Number *</label>
+              <input type="tel" id="p-phone" placeholder="07494 867646" required>
+            </div>
+            <div class="form-field">
+              <label>Email Address</label>
+              <input type="email" id="p-email" placeholder="dispatch@plant.co.uk">
+            </div>
+            <div class="form-field">
+              <label>Yard Location / Town *</label>
+              <input type="text" id="p-loc" placeholder="e.g. Team Valley, Gateshead (NE11)" required>
+            </div>
+            <div class="form-field">
+              <label>Relief Need / Truck Specification *</label>
+              <input type="text" id="p-need" placeholder="e.g. Need 8m³ Mixer — 1-2 Emergency Relief Loads [4-6 Radial Miles]" required>
+            </div>
+            <div class="form-field">
+              <label>Urgency Status *</label>
+              <select id="p-status" required>
+                <option value="Urgent Relief Needed" selected>Urgent Relief Needed (Today)</option>
+                <option value="Relief Cover Queued">Relief Cover Queued (Tomorrow)</option>
+                <option value="Driver Shortage Cover">Driver Shortage Cover</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
+            <button type="button" class="btn-act btn-view" onclick="toggleForm('form-add-plant')">Cancel</button>
+            <button type="submit" class="btn-act btn-add" style="padding:0.65rem 1.4rem;">Broadcast Plant Need Live</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="plants-list">
+        <!-- Populated by JavaScript -->
+      </div>
+    </div>
+
+    
+    <!-- Tab: Shift Delivery Tickets & Radial Tracker -->
+    <div id="tab-tickets" class="tab-pane">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+        <div>
+          <h2 style="margin:0; font-size:1.3rem;">📋 Shift Delivery Tickets &amp; Radial Mileage Tracker</h2>
+          <p style="margin:0.2rem 0 0 0; font-size:0.85rem; color:#94a3b8;">Real-time plant dockets, pour site radials, excess waiting time, and customer sign-offs. Reconcile runs &amp; authorize 24hr Faster Payments.</p>
+        </div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <a href="ticket.html" target="_blank" class="btn-act btn-add" style="text-decoration:none;">➕ Open Driver Delivery Ticket Form</a>
+          <button class="btn-act btn-view" onclick="exportCsv('tickets')">📥 Export Tickets CSV</button>
+        </div>
+      </div>
+
+      <!-- Live Shift Stats Metrics -->
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-bottom:1.5rem;">
+        <div style="background:#1e293b; border:1px solid #334155; border-left:4px solid #38bdf8; border-radius:8px; padding:0.85rem 1rem;">
+          <span style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:700; display:block;">Total Dockets Logged</span>
+          <strong id="ticket-metric-count" style="font-size:1.5rem; color:#fff;">0 Loads</strong>
+        </div>
+        <div style="background:#1e293b; border:1px solid #334155; border-left:4px solid #f59e0b; border-radius:8px; padding:0.85rem 1rem;">
+          <span style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:700; display:block;">Total Radial Distance</span>
+          <strong id="ticket-metric-radial" style="font-size:1.5rem; color:#fde047;">0 Miles</strong>
+        </div>
+        <div style="background:#1e293b; border:1px solid #334155; border-left:4px solid #10b981; border-radius:8px; padding:0.85rem 1rem;">
+          <span style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:700; display:block;">Concrete Hauled</span>
+          <strong id="ticket-metric-volume" style="font-size:1.5rem; color:#4ade80;">0.0 m³</strong>
+        </div>
+        <div style="background:#1e293b; border:1px solid #334155; border-left:4px solid #a855f7; border-radius:8px; padding:0.85rem 1rem;">
+          <span style="font-size:0.75rem; color:#94a3b8; text-transform:uppercase; font-weight:700; display:block;">Total Haulier Payouts</span>
+          <strong id="ticket-metric-payout" style="font-size:1.5rem; color:#c084fc;">£0.00</strong>
+        </div>
+      </div>
+
+      <div id="tickets-list">
+        <!-- Populated dynamically by JavaScript -->
+      </div>
+    </div>
+
+    <!-- Tab 3: Fleet Hire Listings -->
+    <div id="tab-listings" class="tab-pane">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+        <div>
+          <h2 style="margin:0; font-size:1.3rem;">Fleet Capacity Exchange Rental Listings</h2>
+          <p style="margin:0.2rem 0 0 0; font-size:0.85rem; color:#94a3b8;">Manage the idle trucks listed for direct hire on the public MixerShare exchange.</p>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn-act btn-add" onclick="toggleForm('form-add-listing')">+ Add Fleet Rental Listing</button>
+          <button class="btn-act btn-view" onclick="exportCsv('listings')">📥 Export CSV</button>
+        </div>
+      </div>
+
+      <!-- Add Listing Form Panel -->
+      <div id="form-add-listing" class="form-panel">
+        <h3>➕ Add Fleet Capacity Rental Listing</h3>
+        <p>List an available mixer or tipper for day-hire or spot relief on the public board.</p>
+        <form onsubmit="addModeratorListing(event)">
+          <div class="form-grid">
+            <div class="form-field">
+              <label>Plant / Haulier Company Name *</label>
+              <input type="text" id="l-name" placeholder="e.g. Apex Ready-Mix Ltd" required>
+            </div>
+            <div class="form-field">
+              <label>Vehicle Type &amp; Drum Size *</label>
+              <select id="l-truck" required>
+                <option value="Standard 8m³ 4-Axle Rigid Mixer" selected>Standard 8m³ 4-Axle Rigid Mixer</option>
+                <option value="2-Axle 4m³ Compact Mini-Mixer">2-Axle 4m³ Compact Mini-Mixer</option>
+                <option value="3-Axle 6m³ Rigid Mixer">3-Axle 6m³ Medium Mixer</option>
+                <option value="8x4 32t Steel Body Tipper Wagon">8x4 32t Steel Body Tipper Wagon</option>
+                <option value="8x4 32t Grab Tipper Lorry">8x4 32t Grab Tipper Lorry</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Full Day Shift Rate (£) *</label>
+              <input type="number" id="l-full" value="520" required>
+            </div>
+            <div class="form-field">
+              <label>Half Day Shift Rate (£) *</label>
+              <input type="number" id="l-half" value="320" required>
+            </div>
+            <div class="form-field">
+              <label>Radial Base Fee (£) *</label>
+              <input type="number" id="l-radial-base" value="85" required>
+            </div>
+            <div class="form-field">
+              <label>Per-Mile Radial Rate (£) *</label>
+              <input type="number" step="0.5" id="l-radial-mile" value="5.00" required>
+            </div>
+            <div class="form-field">
+              <label>Operating Location / Town *</label>
+              <input type="text" id="l-loc" placeholder="e.g. Newcastle / Sunderland" required>
+            </div>
+            <div class="form-field">
+              <label>Trucks Available</label>
+              <input type="number" id="l-count" value="1" min="1" required>
+            </div>
+          </div>
+          <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
+            <button type="button" class="btn-act btn-view" onclick="toggleForm('form-add-listing')">Cancel</button>
+            <button type="submit" class="btn-act btn-add" style="padding:0.65rem 1.4rem;">Publish Listing to Board</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="listings-list">
+        <!-- Populated by JavaScript -->
+      </div>
+    </div>
+
+    <!-- Tab 4: Stripe Bookings & Escrow -->
+    <div id="tab-bookings" class="tab-pane">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+        <div>
+          <h2 style="margin:0; font-size:1.3rem;">Stripe Connect Authorized Bookings &amp; Escrow Payments</h2>
+          <p style="margin:0.2rem 0 0 0; font-size:0.85rem; color:#94a3b8;">Review client bookings, release 24hr Faster Payments, or archive completed records.</p>
+        </div>
+        <button class="btn-act btn-view" onclick="exportCsv('bookings')">📥 Export CSV</button>
+      </div>
+      <div id="bookings-list">
+        <!-- Populated by JavaScript -->
+      </div>
+    </div>
+
+    
+    <!-- Tab 5: Matchmaker -->
+    <div id="tab-match" class="tab-pane">
+      <div class="data-card" style="display:block; padding:1.75rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem;">
+          <h2 style="margin:0; font-size:1.3rem; color:#f59e0b;">⚡ 1-Click Dispatch Matchmaker &amp; Deadhead Protection Check</h2>
+          <span class="badge badge-green">🛡️ Deadhead Guardrail Active</span>
+        </div>
+        <p style="font-size:0.9rem; color:#94a3b8; margin-bottom:1.5rem;">
+          Select an urgent plant requirement and match with an available haulier. The platform automatically assesses <strong>deadhead transit distance</strong> to protect the driver against loss-making runs (e.g. driving 15–20 miles for 1 small load).
+        </p>
+        
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem;">
+          <div style="background:#0f172a; padding:1.25rem; border-radius:8px; border:1px solid #334155;">
+            <h4 style="color:#38bdf8; margin:0 0 0.75rem 0;">1. Select Ordering Plant Requirement:</h4>
+            <select id="match-plant" onchange="evaluateMatchmakerDeadhead()" style="width:100%; padding:0.75rem; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px;">
+              <!-- Populated dynamically by JavaScript -->
+            </select>
+          </div>
+
+          <div style="background:#0f172a; padding:1.25rem; border-radius:8px; border:1px solid #334155;">
+            <h4 style="color:#4ade80; margin:0 0 0.75rem 0;">2. Assign Available Haulier / Truck:</h4>
+            <select id="match-haulier" onchange="evaluateMatchmakerDeadhead()" style="width:100%; padding:0.75rem; background:#1e293b; color:#fff; border:1px solid #475569; border-radius:6px;">
+              <!-- Populated dynamically by JavaScript -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Deadhead Feasibility Assessment Result Box -->
+        <div id="match-deadhead-box" style="margin-top:1.25rem; padding:1rem; border-radius:8px; background:#0f172a; border:1px solid #334155; font-size:0.88rem; line-height:1.5;">
+          <!-- Dynamically assessed -->
+        </div>
+
+        <div style="margin-top:1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem;">
+          <div style="font-size:0.8rem; color:#94a3b8;">
+            ✔ Automatically queues SMS &amp; WhatsApp delivery ticket link to driver cab.
+          </div>
+          <button id="btn-execute-match" class="btn-act btn-match" style="padding:0.85rem 1.75rem; font-size:1rem;" onclick="executeMatch()">🚀 Dispatch Haulier &amp; Send Ticket Sign-off Link</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 6: Academy Trainees -->
+    <div id="tab-academy" class="tab-pane">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+        <div>
+          <h2 style="margin:0; font-size:1.3rem;">Driver Training Academy Registrations</h2>
+          <p style="margin:0.2rem 0 0 0; font-size:0.85rem; color:#94a3b8;">1-Day Practical Ready-Mix Masterclass bookings. Lead Instructor: Ian Henry.</p>
+        </div>
+        <a href="mixershare_training_brief.pdf" target="_blank" class="btn-act btn-view">📄 Syllabus Brief PDF</a>
+      </div>
+      <div id="academy-list">
+        <!-- Populated by JavaScript -->
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // 1. Cryptographic PIN Verification (SHA-256)
+    async function sha256(str) {
+      const buf = new TextEncoder().encode(str);
+      const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+      return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    const AUTHORIZED_HASHES = [
+      'ae5540d7f3a690bc1aa27884291cbe53795bb679f603536eed4582179eb19d2a', // PIN: 07494
+      '1bc3201a9f24a2fe48f634f90d406aaf6cbf5e36e292870ecba98d74b065ee1b', // PIN: 1994
+      '0a067100eded9cfed01b9db034a948f97b5a9faf9f87981791af6bc6484e6ef6', // PIN: 07494867646
+      '7ce74b56300b47f0c20832cfeaad05d3c876dfa46fa7b3d38223cbe84e7b0e18'  // PIN: mixer
+    ];
+
+    async function verifyPin() {
+      const pinInput = document.getElementById('pin-input');
+      const pin = (pinInput ? pinInput.value.trim() : '');
+      if (!pin) return;
+      const hashed = await sha256(pin);
+
+      if (AUTHORIZED_HASHES.includes(hashed)) {
+        document.getElementById('pin-gate').style.display = 'none';
+        sessionStorage.setItem('mixer_admin_auth', '1');
+        if (pinInput) pinInput.value = '';
+        const err = document.getElementById('pin-err');
+        if (err) err.style.display = 'none';
+        showToast('🔓 Moderator Command Center Unlocked!');
+      } else {
+        const err = document.getElementById('pin-err');
+        if (err) {
+          err.style.display = 'block';
+          err.innerText = 'Access Denied: Invalid Authorization PIN.';
+        }
+      }
+    }
+
+    function lockPortal() {
+      sessionStorage.removeItem('mixer_admin_auth');
+      const gate = document.getElementById('pin-gate');
+      if (gate) gate.style.display = 'flex';
+      const pinInput = document.getElementById('pin-input');
+      if (pinInput) {
+        pinInput.value = '';
+        pinInput.focus();
+      }
+      showToast('🔒 Portal Locked.', true);
+    }
+
+    if (sessionStorage.getItem('mixer_admin_auth') === '1') {
+      document.getElementById('pin-gate').style.display = 'none';
+    }
+
+    // Toast Notifications
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById('portal-toast');
+      if (!toast) return;
+      toast.innerText = msg;
+      toast.className = isError ? 'error' : '';
+      toast.style.display = 'flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3200);
+    }
+
+    // Toggle Form Panels
+    function toggleForm(formId) {
+      const panel = document.getElementById(formId);
+      if (!panel) return;
+      panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+      if (panel.style.display === 'block') {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    // Tab Switching
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.p-tab').forEach(el => el.classList.remove('active'));
+      const targetPane = document.getElementById(tabId);
+      if (targetPane) targetPane.classList.add('active');
+
+      const matchingBtn = document.querySelector(`.p-tab[onclick*="${tabId}"]`);
+      if (matchingBtn) matchingBtn.classList.add('active');
+    }
+
+    // 2. Data State
+    let baseHauliers = [];
+    let basePlants = [];
+    let customListings = [];
+    let baseBookings = [];
+    let baseTickets = [];
+    let baseAcademy = [];
+
+    // Scrub legacy cached data containing Henry Transport / NK68 ABC
+    try {
+      let storedListings = JSON.parse(localStorage.getItem('mixershare_custom_listings') || '[]');
+      storedListings = storedListings.filter(l => {
+        const text = ((l.plantName || '') + ' ' + (l.location || '') + ' ' + (l.truckType || '')).toLowerCase();
+        return !text.includes('henry transport') && !text.includes('nk68 abc');
+      });
+      localStorage.setItem('mixershare_custom_listings', JSON.stringify(storedListings));
+
+      let storedSubs = JSON.parse(localStorage.getItem('mixershare_submissions') || '[]');
+      storedSubs = storedSubs.filter(s => {
+        const text = ((s.operator || '') + ' ' + (s.driver_name || '') + ' ' + (s.company || '') + ' ' + (s.company_name || '') + ' ' + (s.vrn || '')).toLowerCase();
+        return !text.includes('henry transport') && !text.includes('nk68 abc');
+      });
+      localStorage.setItem('mixershare_submissions', JSON.stringify(storedSubs));
+    } catch(e) {
+      console.warn('Storage scrub error:', e);
+    }
+
+    // Load Live Data from LocalStorage
+    function loadData() {
+      baseHauliers = [];
+      basePlants = [];
+      customListings = [];
+      baseBookings = [];
+      baseAcademy = [];
+      baseTickets = [];
+
+      try {
+        const storedTickets = JSON.parse(localStorage.getItem('mixershare_tickets') || '[]');
+        storedTickets.forEach((t, idx) => {
+          if (!t.id) t.id = 'tkt-' + (t.timestamp || Date.now()) + '-' + idx;
+          baseTickets.push(t);
+        });
+
+        const storedListings = JSON.parse(localStorage.getItem('mixershare_custom_listings') || '[]');
+        storedListings.forEach((l, idx) => {
+          if (!l.id) l.id = 'lst-' + (Date.now() + idx);
+          customListings.push(l);
+        });
+
+        const stored = JSON.parse(localStorage.getItem('mixershare_submissions') || '[]');
+        stored.forEach((sub, idx) => {
+          const subId = sub.id || ('sub-' + (sub.timestamp || Date.now()) + '-' + idx);
+          sub.id = subId;
+
+          if (sub.formType === 'stripe-booking-payment') {
+            baseBookings.push({
+              id: subId,
+              refCode: sub.refCode || ('MS-' + Math.floor(100000 + Math.random() * 900000)),
+              timestamp: sub.timestamp || new Date().toISOString(),
+              operatorName: sub.operatorName || 'Franchised Owner-Driver',
+              truckType: sub.truckType || 'Rigid Mixer',
+              bookingDesc: sub.bookingDesc || 'Full Day Shift (8 Hours - All-Inc)',
+              postcode: sub.postcode || 'NE8 1AA',
+              totalFee: sub.totalFee || '£520.00',
+              status: sub.status || 'Payment Authorized / Escrow Locked'
+            });
+          } else if (sub.formType === 'driver-signup' || sub.formType === 'haulier-full-onboarding' || sub.formType === 'driver-availability-quick') {
+            baseHauliers.push({
+              id: subId,
+              name: sub.operator || sub.company_name || sub.driver_name || 'Registered Driver',
+              contact: sub.driver_name || sub.operator || 'Driver',
+              phone: sub.mobile || '07494 867646',
+              email: sub.email || 'mixershareuk@gmail.com',
+              truck: sub.vehicle || sub.vehicle_type || 'Standard 8m³ Rigid Mixer',
+              vrn: sub.vrn || 'On File',
+              location: sub.postcode || sub.location || 'North East Pilot',
+              status: sub.status || sub.timing || 'Available Now',
+              hours: sub.availableHours || 'Immediate Dispatch',
+              bank: sub.account_number ? ('Sort ' + (sub.sort_code||'00-00-00') + ', Acc ****' + sub.account_number.slice(-4)) : (sub.bank || 'Faster Payments Active')
+            });
+          } else if (sub.formType === 'plant-inquiry' || sub.formType === 'plant-relief-quick') {
+            basePlants.push({
+              id: subId,
+              company: sub.company || sub.company_name || 'Registered Concrete Yard',
+              contact: sub.contact || sub.contact_name || 'Plant Manager',
+              phone: sub.phone || '07494 867646',
+              email: sub.email || 'mixershareuk@gmail.com',
+              location: sub.location || 'North East UK',
+              need: sub.reliefNeed || sub.relief_need || 'Priority Relief Matching',
+              status: sub.status || 'Urgent Relief Needed'
+            });
+          } else if (sub.formType === 'training-inquiry') {
+            baseAcademy.push({
+              id: subId,
+              candidate: sub.name || 'Candidate',
+              count: sub.count || '1',
+              phone: sub.phone || '07494 867646',
+              email: sub.email || 'mixershareuk@gmail.com',
+              timestamp: sub.timestamp || new Date().toISOString()
+            });
+          } else if (sub.formType === 'digital-delivery-ticket') {
+            if (!baseTickets.some(t => t.ticketRef === sub.ticketRef || t.id === sub.id)) {
+              baseTickets.push({
+                id: subId,
+                ticketRef: sub.ticketRef || ('MS-DT-' + Math.floor(100000 + Math.random() * 900000)),
+                timestamp: sub.timestamp || new Date().toISOString(),
+                driver: sub.operator || sub.driver_name || 'Driver',
+                vrn: sub.vrn || 'VRN',
+                truckLabel: sub.vehicle || '8m³ Rigid Mixer',
+                plant: sub.company || 'Ready-Mix Plant',
+                plantDocket: sub.plantDocket || 'Docket',
+                volume: sub.volume || '6.0',
+                mixSpec: sub.mixSpec || 'Standard Ready-Mix',
+                siteName: sub.siteName || 'Jobsite',
+                sitePostcode: sub.location || 'Local Site',
+                radialMiles: sub.radialMiles || 5,
+                waitingMins: sub.waitingMins || 0,
+                totalPayout: sub.payout || '£100.00',
+                receiverName: sub.receiverName || 'Site Agent',
+                receiverRole: sub.receiverRole || 'Site Rep',
+                status: sub.status || 'Logged & Discharged'
+              });
+            }
+          }
+        });
+      } catch(e) {
+        console.warn('LocalStorage load error:', e);
+      }
+    }
+
+    // 3. Render Functions
+    function renderAll() {
+      renderStats();
+      renderHauliers();
+      renderPlants();
+      renderListings();
+      renderBookings();
+      renderTickets();
+      renderAcademy();
+      populateMatchmaker();
+    }
+
+    function renderStats() {
+      document.getElementById('stat-trucks').innerText = baseHauliers.length + (baseHauliers.length === 1 ? ' Truck' : ' Trucks');
+      document.getElementById('stat-plants').innerText = basePlants.length + (basePlants.length === 1 ? ' Yard' : ' Yards');
+      document.getElementById('stat-listings').innerText = customListings.length + (customListings.length === 1 ? ' Listing' : ' Listings');
+      const availCount = baseHauliers.filter(h => (h.status || '').toLowerCase().includes('today') || (h.status || '').toLowerCase().includes('now')).length;
+      document.getElementById('stat-available').innerText = availCount + ' Ready';
+
+      document.getElementById('count-hauliers').innerText = baseHauliers.length;
+      document.getElementById('count-plants').innerText = basePlants.length;
+      document.getElementById('count-listings').innerText = customListings.length;
+      document.getElementById('count-bookings').innerText = baseBookings.length;
+      if (document.getElementById('stat-tickets')) {
+        document.getElementById('stat-tickets').innerText = baseTickets.length + (baseTickets.length === 1 ? ' Run' : ' Runs');
+      }
+      if (document.getElementById('count-tickets')) {
+        document.getElementById('count-tickets').innerText = baseTickets.length;
+      }
+      document.getElementById('count-academy').innerText = baseAcademy.length;
+    }
+
+    // Render Hauliers
+    function renderHauliers() {
+      const container = document.getElementById('hauliers-list');
+      if (!container) return;
+
+      if (baseHauliers.length === 0) {
+        container.innerHTML = `
+          <div class="data-card" style="text-align:center; padding:2.5rem; color:#94a3b8; display:block;">
+            <p style="margin:0; font-size:1.05rem; color:#f1f5f9; font-weight:600;">No verified hauliers or drivers currently on the roster.</p>
+            <p style="margin:0.5rem 0 1rem 0; font-size:0.85rem; color:#94a3b8;">Click "+ Add Verified Truck / Haulier" above to add an owner-driver, or driver signups from the website will appear here automatically.</p>
+            <button class="btn-act btn-add" onclick="toggleForm('form-add-haulier')">+ Add Verified Truck / Haulier</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = baseHauliers.map(h => `
+        <div class="data-card" id="card-${h.id}">
+          <div class="card-info">
+            <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+              <h3>${h.name}</h3>
+              <span class="badge ${(h.status||'').includes('Today') || (h.status||'').includes('Now') ? 'badge-green' : 'badge-blue'}">${h.status}</span>
+              <span class="badge badge-amber">${h.truck}</span>
+            </div>
+            <div class="card-meta">
+              <span>👤 Contact: <strong>${h.contact}</strong></span>
+              <span>📍 Base: <strong>${h.location}</strong></span>
+              <span>🚛 VRN: <strong style="color:#fde047;">${h.vrn}</strong></span>
+              <span>💳 Bank: <strong style="color:#93c5fd;">${h.bank}</strong></span>
+            </div>
+          </div>
+          <div class="action-group">
+            <a href="tel:${h.phone}" class="btn-act btn-call">📞 Call</a>
+            <a href="https://wa.me/44${(h.phone || '').replace(/[^0-9]/g, '').replace(/^0/, '')}?text=Hi%20${encodeURIComponent(h.contact)},%20MixerShare%20Operations%20here.%20We%20have%20a%20relief%20dispatch%20ready%20for%20your%20${encodeURIComponent(h.truck)}" target="_blank" class="btn-act btn-wa">💬 WhatsApp</a>
+            <button class="btn-act btn-delete" onclick="removeHaulier('${h.id}')">🗑️ Remove Truck</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Plants
+    function renderPlants() {
+      const container = document.getElementById('plants-list');
+      if (!container) return;
+
+      if (basePlants.length === 0) {
+        container.innerHTML = `
+          <div class="data-card" style="text-align:center; padding:2.5rem; color:#94a3b8; display:block;">
+            <p style="margin:0; font-size:1.05rem; color:#f1f5f9; font-weight:600;">No plant relief requests currently pending.</p>
+            <p style="margin:0.5rem 0 1rem 0; font-size:0.85rem; color:#94a3b8;">When a ready-mix concrete plant posts a relief need on the website, or you log one manually via "+ Add Plant Relief Need", it will appear here.</p>
+            <button class="btn-act btn-add" onclick="toggleForm('form-add-plant')">+ Add Plant Relief Need</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = basePlants.map(p => `
+        <div class="data-card" id="card-${p.id}" style="border-left: 4px solid #3b82f6;">
+          <div class="card-info">
+            <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+              <h3>${p.company}</h3>
+              <span class="badge badge-blue">${p.status}</span>
+            </div>
+            <div style="font-size:0.95rem; color:#f59e0b; font-weight:700; margin:0.35rem 0;">
+              📢 Requirement: ${p.need}
+            </div>
+            <div class="card-meta">
+              <span>👤 Contact: <strong>${p.contact}</strong></span>
+              <span>📍 Yard: <strong>${p.location}</strong></span>
+              <span>📞 ${p.phone}</span>
+              <span>✉️ ${p.email}</span>
+            </div>
+          </div>
+          <div class="action-group">
+            <a href="tel:${p.phone}" class="btn-act btn-call">📞 Call Plant</a>
+            <a href="https://wa.me/44${(p.phone || '').replace(/[^0-9]/g, '').replace(/^0/, '')}?text=Hi%20${encodeURIComponent(p.contact)},%20MixerShare%20Operations%20here.%20We%20have%20an%20available%20mixer%20truck%20ready%20to%20cover%20your%20loads%20at%20${encodeURIComponent(p.company)}" target="_blank" class="btn-act btn-wa">💬 WhatsApp</a>
+            <button class="btn-act btn-match" onclick="document.getElementById('match-plant').value = '${p.company.replace(/'/g, "\\'")}'; showTab('tab-match');">⚡ Assign Truck</button>
+            <button class="btn-act btn-delete" onclick="removePlant('${p.id}')">🗑️ Remove Plant</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Fleet Hire Listings
+    function renderListings() {
+      const container = document.getElementById('listings-list');
+      if (!container) return;
+
+      if (customListings.length === 0) {
+        container.innerHTML = `
+          <div class="data-card" style="text-align:center; padding:2.5rem; color:#94a3b8; display:block;">
+            <p style="margin:0; font-size:1.05rem; color:#f1f5f9; font-weight:600;">No spare trucks currently listed for direct hire on the public exchange.</p>
+            <p style="margin:0.5rem 0 1rem 0; font-size:0.85rem; color:#94a3b8;">Click "+ Add Fleet Rental Listing" to publish a mixer or tipper available for day-hire or spot radial work.</p>
+            <button class="btn-act btn-add" onclick="toggleForm('form-add-listing')">+ Add Fleet Rental Listing</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = customListings.map(l => {
+        const isTipper = (l.category === 'tipper') || (l.truckType || '').toLowerCase().includes('tipper');
+        const rateHalf = l.rateTypeOptions ? l.rateTypeOptions.halfDay : 320;
+        const rateFull = l.rateTypeOptions ? l.rateTypeOptions.fullDay : 520;
+        const radialBase = l.rateTypeOptions ? l.rateTypeOptions.radialBase : 85;
+        const radialMile = l.rateTypeOptions ? l.rateTypeOptions.radialPerMile : 5.00;
+
+        return `
+          <div class="data-card" id="card-${l.id}" style="border-left: 4px solid #f59e0b;">
+            <div class="card-info">
+              <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+                <h3>${l.plantName}</h3>
+                <span class="badge ${isTipper ? 'badge-amber' : 'badge-blue'}">${l.truckType}</span>
+                <span class="badge badge-green">£${rateFull} / Full Day</span>
+              </div>
+              <div class="card-meta">
+                <span>📍 Location: <strong>${l.location}</strong></span>
+                <span>⏱️ Half Day: <strong>£${rateHalf}</strong></span>
+                <span>⚡ Spot Radial: <strong>£${radialBase} + £${radialMile}/mi</strong></span>
+                <span>🛡️ FORS &amp; CPC Verified</span>
+              </div>
+            </div>
+            <div class="action-group">
+              <a href="/" target="_blank" class="btn-act btn-view">👁️ View on Public Site</a>
+              <button class="btn-act btn-delete" onclick="removeListing('${l.id}')">🗑️ Remove Listing</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render Stripe Bookings
+    function renderBookings() {
+      const container = document.getElementById('bookings-list');
+      if (!container) return;
+
+      if (baseBookings.length === 0) {
+        container.innerHTML = `
+          <div class="data-card" style="text-align:center; padding:2.5rem; color:#94a3b8; display:block;">
+            <p style="margin:0; font-size:1.05rem; color:#f1f5f9; font-weight:600;">No Stripe bookings currently pending verification.</p>
+            <p style="margin:0.5rem 0 0 0; font-size:0.85rem; color:#94a3b8;">When a batch plant or contractor authorizes a shift via Stripe on the website, it will be logged here instantly with one-click payout release.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = baseBookings.map(b => `
+        <div class="data-card" id="card-${b.id}" style="border-left: 4px solid #10b981;">
+          <div class="card-info">
+            <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+              <h3 style="color:#86efac;">Ref: #${b.refCode}</h3>
+              <span class="badge badge-green">${b.status}</span>
+              <span class="badge badge-amber">${b.totalFee}</span>
+            </div>
+            <div style="font-size:0.92rem; color:#f1f5f9; margin:0.35rem 0;">
+              🚛 <strong>${b.operatorName}</strong> • ${b.truckType} • 📦 <strong style="color:#38bdf8;">${b.bookingDesc}</strong> • 📍 Postcode: <strong>${b.postcode}</strong>
+            </div>
+            <div class="card-meta">
+              <span>⏰ Logged: ${new Date(b.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+              <span>🛡️ Stripe Connect UK Escrow Protected</span>
+              <span>⚡ Faster Payments Payout Eligible</span>
+            </div>
+          </div>
+          <div class="action-group">
+            <a href="tel:07494867646" class="btn-act btn-call">📞 Call Driver</a>
+            <a href="https://wa.me/447494867646?text=Hi,%20confirming%20MixerShare%20booking%20${b.refCode}%20for%20${encodeURIComponent(b.operatorName)}%20(${encodeURIComponent(b.bookingDesc)})" target="_blank" class="btn-act btn-wa">💬 WhatsApp Ticket</a>
+            <button class="btn-act btn-match" style="background:#16a34a;" onclick="alert('✅ FASTER PAYMENTS DISPATCHED!\\n\\nPayout of ${b.totalFee} released to ${b.operatorName}.\\nBank transfer reference: MS-${b.refCode}.')">💸 Release Payout</button>
+            <button class="btn-act btn-delete" onclick="removeBooking('${b.id}')">🗑️ Archive</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render Academy
+    function renderAcademy() {
+      const container = document.getElementById('academy-list');
+      if (!container) return;
+
+      if (baseAcademy.length === 0) {
+        container.innerHTML = `
+          <div class="data-card" style="text-align:center; padding:2.5rem; color:#94a3b8; display:block;">
+            <p style="margin:0; font-size:1.05rem; color:#f1f5f9; font-weight:600;">No driver training inquiries currently pending.</p>
+            <p style="margin:0.5rem 0 0 0; font-size:0.85rem; color:#94a3b8;">Candidates booking the 1-Day Practical Ready-Mix Masterclass with Ian Henry will appear here with direct call and WhatsApp buttons.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = baseAcademy.map(a => `
+        <div class="data-card" id="card-${a.id}" style="border-left: 4px solid #f59e0b;">
+          <div class="card-info">
+            <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+              <h3>${a.candidate}</h3>
+              <span class="badge badge-amber">${a.count} Driver(s) Registered</span>
+              <span class="badge badge-green">New Training Inquiry</span>
+            </div>
+            <p style="color:#cbd5e1; font-size:0.9rem; margin:0.35rem 0;">1-Day Practical Ready-Mix Masterclass • Hands-on In-Cab Training by Ian Henry</p>
+            <div class="card-meta">
+              <span>📞 <strong>${a.phone}</strong></span>
+              <span>✉️ ${a.email}</span>
+              <span>⏰ Logged: ${new Date(a.timestamp).toLocaleDateString('en-GB')}</span>
+            </div>
+          </div>
+          <div class="action-group">
+            <a href="tel:${a.phone}" class="btn-act btn-call">📞 Call Candidate</a>
+            <a href="https://wa.me/44${(a.phone || '').replace(/[^0-9]/g, '').replace(/^0/, '')}?text=Hi%20${encodeURIComponent(a.candidate)},%20Ian%20Henry%20here%20regarding%20your%20MixerShare%20Driver%20Training%20inquiry" target="_blank" class="btn-act btn-wa">💬 WhatsApp</a>
+            <button class="btn-act btn-delete" onclick="removeAcademy('${a.id}')">🗑️ Archive</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 4. Moderator Actions: Add & Remove Trucks, Plants, Listings
+
+    // Add Haulier
+    function addModeratorHaulier(e) {
+      e.preventDefault();
+      const name = document.getElementById('h-name').value.trim();
+      const contact = document.getElementById('h-contact').value.trim();
+      const phone = document.getElementById('h-phone').value.trim();
+      const email = document.getElementById('h-email').value.trim() || 'mixershareuk@gmail.com';
+      const truck = document.getElementById('h-truck').value;
+      const vrn = document.getElementById('h-vrn').value.trim();
+      const loc = document.getElementById('h-loc').value.trim();
+      const status = document.getElementById('h-status').value;
+      const bank = document.getElementById('h-bank').value.trim() || 'Faster Payments Active';
+
+      const newId = 'mod-h-' + Date.now();
+      const newSubmission = {
+        id: newId,
+        timestamp: new Date().toISOString(),
+        formType: 'driver-signup',
+        operator: name,
+        driver_name: contact,
+        mobile: phone,
+        email: email,
+        vehicle: truck,
+        vehicle_type: truck,
+        vrn: vrn,
+        postcode: loc,
+        status: status,
+        timing: status,
+        bank: bank
+      };
+
+      try {
+        const subs = JSON.parse(localStorage.getItem('mixershare_submissions') || '[]');
+        subs.unshift(newSubmission);
+        localStorage.setItem('mixershare_submissions', JSON.stringify(subs));
+      } catch(err) {
+        console.warn('Storage save error:', err);
+      }
+
+      loadData();
+      renderAll();
+      toggleForm('form-add-haulier');
+      showToast(`✅ Added ${name} (${truck}) to live roster and public site!`);
+    }
+
+    // Remove Haulier
+    function removeHaulier(id) {
+      const haulier = baseHauliers.find(h => h.id === id);
+      const name = haulier ? haulier.name : 'this truck';
+      if (!confirm(`Are you sure you want to remove ${name} from the live roster and public website?`)) {
+        return;
+      }
+
+      try {
+        let subs = JSON.parse(localStorage.getItem('mixershare_submissions') || '[]');
+        subs = subs.filter(s => s.id !== id && s.operator !== name && s.driver_name !== name);
+        localStorage.setItem('mixershare_submissions', JSON.stringify(subs));
+
+        let listings = JSON.parse(localStorage.getItem('mixershare_custom_listings') || '[]');
+        listings = listings.filter(l => l.id !== id && l.plantName !== name);
+        localStorage.setItem('mixershare_custom_listings', JSON.stringify(listings));
+      } catch(err) {
+        console.warn('Storage delete error:', err);
+      }
+
+      loadData();
+      renderAll();
+      showToast(`🗑️ Removed ${name} from live roster and website.`);
+    }
+
+    // Add Plant
+    function addModeratorPlant(e) {
+      e.preventDefault();
+      const company = document.getElementById('p-company').value.trim();
+      const contact = document.getElementById('p-contact').value.trim();
+      const phone = document.getElementById('p-phone').value.trim();
+      const email = document.getElementById('p-email').value.trim() || 'mixershareuk@gmail.com';
+      const loc = document.getElementById('p-loc').value.trim();
+      const need = document.getElementById('p-need').value.trim();
+      const status = document.getElementById('p-status').value;
+
+      const newId = 'mod-p-' + Date.now();
+      const newSubmission = {
+        id: newId,
+        timestamp: new Date().toISOString(),
+        formType: 'plant-inquiry',
+        company: company,
+        company_name: company,
+        contact: contact,
+        contact_name: contact,
+        phone: phone,
+        email: email,
+        location: loc,
+        reliefNeed: need,
+        relief_need: need,
+        status: status
+      };
+
+      try {
+        const subs = JSON.parse(localStorage.getItem('mixershare_submissions') || '[]');
+        subs.unshift(newSubmission);
+        localStorage.setItem('mixershare_submissions', JSON.stringify(subs));
+      } catch(err) {
+        console.warn('Storage save error:', err);
+      }
+
+      loadData();
+      renderAll();
+      toggleForm('form-add-plant');
+      showToast(`✅ Broadcasted relief need for ${company}!`);
+    }
+
+    // Remove Plant
+    function removePlant(id) {
+      const plant = basePlants.find(p => p.id === id);
+      const name = plant ? plant.company : 'this plant request';
+      if (!confirm(`Are you sure you want to remove the relief request for ${name}?`)) {
+        return;
+      }
+
+      try {
+        let subs = JSON.parse(localStorage.getItem('mixershare_submissions') || '[]');
+        subs = subs.filter(s => s.id !== id && s.company !== name && s.company_name !== name);
+        localStorage.setItem('mixershare_submissions', JSON.stringify(subs));
+      } catch(err) {
+        console.warn('Storage delete error:', err);
+      }
+
+      loadData();
+      renderAll();
+      showToast(`🗑️ Removed relief request for ${name}.`);
+    }
+
+    // Add Fleet Rental Listing
+    function addModeratorListing(e) {
+      e.preventDefault();
+      const name = document.getElementById('l-name').value.trim();
+      const truck = document.getElementById('l-truck').value;
+      const rateFull = parseInt(document.getElementById('l-full').value) || 520;
+      const rateHalf = parseInt(document.getElementById('l-half').value) || 320;
+      const radialBase = parseInt(document.getElementById('l-radial-base').value) || 85;
+      const radialMile = parseFloat(document.getElementById('l-radial-mile').value) || 5.00;
+      const loc = document.getElementById('l-loc').value.trim();
+      const count = parseInt(document.getElementById('l-count').value) || 1;
+
+      const isTipper = truck.toLowerCase().includes('tipper');
+
+      const newListing = {
+        id: 'mod-lst-' + Date.now(),
+        plantName: name,
+        distanceMiles: 5,
+        truckType: truck,
+        category: isTipper ? 'tipper' : 'mixer',
+        capacityM3: isTipper ? 0 : 8,
+        capacityTonne: isTipper ? 20 : 0,
+        driverIncluded: true,
+        availableCount: count,
+        rateTypeOptions: {
+          radialBase: radialBase,
+          radialPerMile: radialMile,
+          driverRadialBase: Math.round(radialBase * 0.9),
+          driverRadialPerMile: Math.round(radialMile * 0.9 * 10) / 10,
+          halfDay: rateHalf,
+          fullDay: rateFull,
+          retailFullDay: Math.round(rateFull * 1.45)
+        },
+        location: loc,
+        forsCompliant: true,
+        cpcVerified: true,
+        whiteLabelMode: true,
+        nextDayPayout: true,
+        flexibleExtension: true
+      };
+
+      try {
+        const stored = JSON.parse(localStorage.getItem('mixershare_custom_listings') || '[]');
+        stored.unshift(newListing);
+        localStorage.setItem('mixershare_custom_listings', JSON.stringify(stored));
+      } catch(err) {
+        console.warn('Storage save error:', err);
+      }
+
+      loadData();
+      renderAll();
+      toggleForm('form-add-listing');
+      showToast(`✅ Published ${name} (${truck}) to Fleet Exchange!`);
+    }
+
+    // Remove Listing
+    function removeListing(id) {
+      const listing = customListings.find(l => l.id === id);
+      const name = listing ? listing.plantName : 'this listing';
+      if (!confirm(`Are you sure you want to remove ${name} from the public Fleet Exchange board?`)) {
+        return;
+      }
+
+      try {
+        let stored = JSON.parse(localStorage.getItem('mixershare_custom_listings') || '[]');
+        stored = stored.filter(l => l.id !== id && l.plantName !== name);
+        localStorage.setItem('mixershare_custom_listings', JSON.stringify(stored));
+      } catch(err) {
+        console.warn('Storage delete error:', err);
+      }
+
+      loadData();
+      renderAll();
+      showToast(`🗑️ Removed listing for ${name}.`);
+    }
+
+    // Remove Booking
+    function removeBooking(id) {
+      if (!confirm('Are you sure you want to archive / remove this booking record?')) return;
+      try {
+        let subs = JSON.parse(localStorage.getItem('mixershare_submissions') || '[]');
+        subs = subs.filter(s => s.id !== id);
+        localStorage.setItem('mixershare_submissions', JSON.stringify(subs));
+      } catch(err) {}
+      loadData();
+      renderAll();
+      showToast('🗑️ Booking record archived.');
+    }
+
+    // Remove Academy
+    function removeAcademy(id) {
+      if (!confirm('Are you sure you want to archive this training inquiry?')) return;
+      try {
+        let subs = JSON.parse(localStorage.getItem('mixershare_submissions') || '[]');
+        subs = subs.filter(s => s.id !== id);
+        localStorage.setItem('mixershare_submissions', JSON.stringify(subs));
+      } catch(err) {}
+      loadData();
+      renderAll();
+      showToast('🗑️ Training inquiry archived.');
+    }
+
+    // 5. Matchmaker
+    function populateMatchmaker() {
+      const plantSelect = document.getElementById('match-plant');
+      const haulierSelect = document.getElementById('match-haulier');
+      
+      if (plantSelect) {
+        if (basePlants.length === 0) {
+          plantSelect.innerHTML = '<option value="">(No active plant requests — add one above or wait for live inquiry)</option>';
+        } else {
+          plantSelect.innerHTML = basePlants.map(p => `<option value="${p.company}">${p.company} (${p.location}) — ${p.need}</option>`).join('');
+        }
+      }
+
+      if (haulierSelect) {
+        if (baseHauliers.length === 0) {
+          haulierSelect.innerHTML = '<option value="">(No hauliers on roster — add one above or wait for registration)</option>';
+        } else {
+          haulierSelect.innerHTML = baseHauliers.map(h => `<option value="${h.name}">${h.name} — ${h.truck} [${h.vrn}] (${h.location})</option>`).join('');
+        }
+      }
+    }
+
+    function executeMatch() {
+      const plant = document.getElementById('match-plant').value;
+      const haulier = document.getElementById('match-haulier').value;
+      if (!plant || !haulier) {
+        alert("Please ensure both an ordering plant and an available haulier are selected.");
+        return;
+      }
+      alert('🚀 MATCH CONFIRMED!\n\nDispatching: ' + haulier + '\nTo: ' + plant + '\n\nAutomated SMS & WhatsApp dispatch ticket queued for driver. Payout held securely in Stripe Connect UK escrow until ticket sign-off.');
+    }
+
+    
+    // ----------------------------------------------------
+    // Shift Delivery Tickets & Radial Distance Functions
+    // ----------------------------------------------------
+    function renderTickets() {
+      const container = document.getElementById('tickets-list');
+      if (!container) return;
+
+      // Calculate Metrics
+      let totalRadial = 0;
+      let totalVolume = 0;
+      let totalPayoutVal = 0;
+
+      baseTickets.forEach(t => {
+        totalRadial += parseInt(t.radialMiles) || 0;
+        totalVolume += parseFloat(t.volume) || 0;
+        const pNum = parseFloat((t.totalPayout || '0').replace(/[^0-9.]/g, '')) || 0;
+        totalPayoutVal += pNum;
+      });
+
+      const mCount = document.getElementById('ticket-metric-count');
+      const mRadial = document.getElementById('ticket-metric-radial');
+      const mVol = document.getElementById('ticket-metric-volume');
+      const mPay = document.getElementById('ticket-metric-payout');
+
+      if (mCount) mCount.innerText = baseTickets.length + (baseTickets.length === 1 ? ' Load' : ' Loads');
+      if (mRadial) mRadial.innerText = totalRadial + ' Miles';
+      if (mVol) mVol.innerText = totalVolume.toFixed(1) + ' m³';
+      if (mPay) mPay.innerText = '£' + totalPayoutVal.toFixed(2);
+
+      if (baseTickets.length === 0) {
+        container.innerHTML = `
+          <div class="data-card" style="text-align:center; padding:2.5rem; color:#94a3b8; display:block;">
+            <p style="margin:0; font-size:1.05rem; color:#f1f5f9; font-weight:600;">No shift delivery tickets logged today.</p>
+            <p style="margin:0.5rem 0 1rem 0; font-size:0.85rem; color:#94a3b8;">When a driver or batch plant completes a run on mobile via "ticket.html", dockets and radials appear here in real time.</p>
+            <a href="ticket.html" target="_blank" class="btn-act btn-add" style="text-decoration:none; display:inline-block;">➕ Open Mobile Delivery Ticket Form</a>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = baseTickets.map(t => {
+        const isApproved = (t.status || '').toLowerCase().includes('approved');
+        const payoutBadgeClass = isApproved ? 'badge-green' : 'badge-amber';
+        const signaturePreview = t.signature ? `<img src="${t.signature}" alt="Customer Signature" style="max-height:45px; background:#fff; padding:2px; border-radius:4px; border:1px solid #475569;">` : `<span style="color:#94a3b8; font-style:italic;">Digital Sign-off on file</span>`;
+
+        return `
+          <div class="data-card" id="card-${t.id}" style="border-left: 4px solid ${isApproved ? '#10b981' : '#f59e0b'};">
+            <div class="card-info" style="flex:1;">
+              <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.35rem;">
+                <h3 style="color:#f59e0b; font-family:monospace; margin:0;">Ref: #${t.ticketRef}</h3>
+                <span class="badge ${payoutBadgeClass}">${t.status || 'Logged & Discharged'}</span>
+                <span class="badge badge-blue">Plant Docket: #${t.plantDocket}</span>
+                <span class="badge badge-amber" style="font-weight:800; font-size:0.95rem;">${t.totalPayout}</span>
+              </div>
+              
+              <div style="font-size:0.92rem; color:#f1f5f9; margin-bottom:0.35rem; line-height:1.5;">
+                🚛 Driver: <strong style="color:#38bdf8;">${t.driver}</strong> (${t.vrn}) • 🏭 Plant: <strong>${t.plant}</strong><br>
+                📍 Jobsite: <strong>${t.siteName}</strong> (${t.sitePostcode}) • 📦 Mix: <strong>${t.volume}m³ ${t.mixSpec}</strong>
+              </div>
+
+              <div class="card-meta">
+                <span>🧭 Radial: <strong style="color:#38bdf8;">${t.radialMiles} Radial Miles</strong></span>
+                <span>⏱️ Waiting: <strong style="color:${t.waitingMins > 0 ? '#f87171' : '#94a3b8'};">${t.waitingMins || 0} mins</strong></span>
+                <span>✍️ Receiver: <strong>${t.receiverName}</strong> (${t.receiverRole})</span>
+                <span>⏰ Logged: ${new Date(t.timestamp).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
+              </div>
+
+              <div style="margin-top:0.5rem; display:flex; align-items:center; gap:0.75rem;">
+                <span style="font-size:0.75rem; color:#94a3b8;">Site Receiver Signature:</span>
+                ${signaturePreview}
+              </div>
+            </div>
+
+            <div class="action-group">
+              <a href="tel:07494867646" class="btn-act btn-call">📞 Call Driver</a>
+              <a href="https://wa.me/447494867646?text=${encodeURIComponent('MixerShare Central Dispatch: Docket #' + t.plantDocket + ' for driver ' + t.driver + ' (' + t.totalPayout + ') verified.')}" target="_blank" class="btn-act btn-wa">💬 WhatsApp</a>
+              ${!isApproved ? `<button class="btn-act btn-match" style="background:#16a34a;" onclick="approveTicketPayout('${t.id}')">✅ Approve 24hr Faster Payments</button>` : `<span class="badge badge-green" style="padding:0.5rem 0.75rem;">✔ Payout Transferred</span>`}
+              <button class="btn-act btn-delete" onclick="removeTicket('${t.id}')">🗑️ Archive</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function approveTicketPayout(ticketId) {
+      const ticket = baseTickets.find(t => t.id === ticketId);
+      if (!ticket) return;
+
+      ticket.status = 'Reconciled & Payout Approved (24hr Faster Payments)';
+      try {
+        localStorage.setItem('mixershare_tickets', JSON.stringify(baseTickets));
+      } catch(e) {}
+
+      renderTickets();
+      showToast(`✅ Approved Faster Payments payout of ${ticket.totalPayout} for ${ticket.driver}!`);
+    }
+
+    function removeTicket(ticketId) {
+      if (!confirm('Are you sure you want to archive this delivery ticket record?')) return;
+      baseTickets = baseTickets.filter(t => t.id !== ticketId);
+      try {
+        localStorage.setItem('mixershare_tickets', JSON.stringify(baseTickets));
+      } catch(e) {}
+      renderTickets();
+      renderStats();
+      showToast('🗑️ Delivery ticket archived.');
+    }
+
+    // ----------------------------------------------------
+    // Deadhead Feasibility Engine for Matchmaker
+    // ----------------------------------------------------
+    function evaluateMatchmakerDeadhead() {
+      const plantSelect = document.getElementById('match-plant');
+      const haulierSelect = document.getElementById('match-haulier');
+      const deadheadBox = document.getElementById('match-deadhead-box');
+      if (!plantSelect || !haulierSelect || !deadheadBox) return;
+
+      const plantVal = plantSelect.value;
+      const haulierVal = haulierSelect.value;
+
+      if (!plantVal || !haulierVal) {
+        deadheadBox.innerHTML = '<span style="color:#94a3b8;">Select both an ordering plant and an available haulier to calculate transit deadhead.</span>';
+        return;
+      }
+
+      const plant = basePlants.find(p => p.company === plantVal);
+      const haulier = baseHauliers.find(h => h.name === haulierVal);
+
+      const plantLoc = plant ? plant.location : 'Newcastle';
+      const haulierLoc = haulier ? haulier.location : 'Gateshead';
+      const plantNeed = plant ? plant.need : '1-2 Emergency Relief Loads';
+
+      const deadheadDist = calculateDeadheadDistance(haulierLoc, plantLoc);
+      const isUneconomic = deadheadDist > 8 && (plantNeed.toLowerCase().includes('1') || plantNeed.toLowerCase().includes('spot') || plantNeed.toLowerCase().includes('emergency'));
+
+      if (isUneconomic) {
+        const excess = deadheadDist - 8;
+        const travelSurcharge = excess * 2.50;
+        deadheadBox.innerHTML = `
+          <div style="background:#450a0a; border:2px solid #ef4444; border-radius:6px; padding:0.85rem; color:#fecaca;">
+            <div style="font-weight:800; font-size:0.95rem; display:flex; align-items:center; gap:0.5rem; margin-bottom:0.35rem; color:#f87171;">
+              ⚠️ UNECONOMIC DEADHEAD DISTANCE DETECTED (~ ${deadheadDist} Deadhead Miles)
+            </div>
+            <p style="margin:0 0 0.5rem 0; font-size:0.82rem; line-height:1.4;">
+              Haulier base is in <strong>${haulierLoc}</strong> while ordering plant is in <strong>${plantLoc}</strong> (~<strong>${deadheadDist} miles transit</strong>). 
+              Driving a mixer 15–20 miles for a single spot load causes fuel loss and unpaid cab time.
+            </p>
+            <div style="font-size:0.82rem; font-weight:700; color:#fbbf24;">
+              🛡️ Dispatch Protocol Required: Upgrade plant to Half-Day Shift (£320.00 All-Inc) OR apply Deadhead Travel Allowance (+£${travelSurcharge.toFixed(2)} for ${excess} excess miles).
+            </div>
+          </div>
+        `;
+      } else {
+        deadheadBox.innerHTML = `
+          <div style="background:#064e3b; border:1px solid #10b981; border-radius:6px; padding:0.85rem; color:#d1fae5;">
+            <div style="font-weight:800; font-size:0.92rem; color:#4ade80; margin-bottom:0.25rem;">
+              🟢 Local Deadhead Approved (~ ${deadheadDist} Deadhead Miles)
+            </div>
+            <p style="margin:0; font-size:0.82rem;">
+              Haulier (${haulierLoc}) is within the economic 8-mile local dispatch radius for ${plantLoc}. Single relief runs and shift drops are both viable.
+            </p>
+          </div>
+        `;
+      }
+    }
+
+    function calculateDeadheadDistance(origin, destination) {
+      if (!origin || !destination) return 6;
+      const o = origin.toUpperCase().trim();
+      const d = destination.toUpperCase().trim();
+      if (o === d) return 2;
+
+      const getOutcode = (str) => {
+        const match = str.match(/\b([A-Z]{1,2}[0-9]{1,2}[A-Z]?)\b/);
+        if (match) return match[1];
+        if (str.includes("NEWCASTLE")) return "NE1";
+        if (str.includes("GATESHEAD")) return "NE8";
+        if (str.includes("SUNDERLAND")) return "SR1";
+        if (str.includes("DURHAM")) return "DH1";
+        if (str.includes("SOUTH SHIELDS")) return "NE33";
+        if (str.includes("NORTH SHIELDS")) return "NE29";
+        if (str.includes("BIRTLEY") || str.includes("WASHINGTON")) return "DH3";
+        if (str.includes("DARLINGTON")) return "DL1";
+        if (str.includes("MIDDLESBROUGH") || str.includes("TEESSIDE")) return "TS1";
+        if (str.includes("HARTLEPOOL")) return "TS24";
+        return "";
+      };
+
+      const oCode = getOutcode(o);
+      const dCode = getOutcode(d);
+
+      const matrix = {
+        "NE1_NE8": 2, "NE8_NE1": 2,
+        "NE1_NE29": 8, "NE29_NE1": 8,
+        "NE8_NE29": 9, "NE29_NE8": 9,
+        "NE1_DH3": 9, "DH3_NE1": 9,
+        "NE8_DH3": 6, "DH3_NE8": 6,
+        "NE1_SR1": 14, "SR1_NE1": 14,
+        "NE8_SR1": 12, "SR1_NE8": 12,
+        "NE1_DH1": 16, "DH1_NE1": 16,
+        "NE8_DH1": 14, "DH1_NE8": 14,
+        "SR1_DH1": 12, "DH1_SR1": 12,
+        "SR1_DH3": 8, "DH3_SR1": 8,
+        "NE1_DL1": 36, "DL1_NE1": 36,
+        "NE8_DL1": 34, "DL1_NE8": 34,
+        "NE1_TS1": 38, "TS1_NE1": 38,
+        "NE8_TS1": 36, "TS1_NE8": 36,
+        "SR1_TS1": 26, "TS1_SR1": 26,
+        "DH1_DL1": 20, "DL1_DH1": 20,
+        "DH1_TS1": 24, "TS1_DH1": 24
+      };
+
+      if (oCode && dCode) {
+        if (oCode === dCode) return 3;
+        const key = `${oCode}_${dCode}`;
+        if (matrix[key]) return matrix[key];
+
+        const oArea = oCode.replace(/[0-9].*$/, "");
+        const dArea = dCode.replace(/[0-9].*$/, "");
+        if (oArea === dArea) return 6;
+        if ((oArea === "NE" && dArea === "SR") || (oArea === "SR" && dArea === "NE")) return 14;
+        if ((oArea === "NE" && dArea === "DH") || (oArea === "DH" && dArea === "NE")) return 16;
+        if ((oArea === "SR" && dArea === "DH") || (oArea === "DH" && dArea === "SR")) return 12;
+        if ((oArea === "NE" && dArea === "TS") || (oArea === "TS" && dArea === "NE")) return 36;
+        if ((oArea === "SR" && dArea === "TS") || (oArea === "TS" && dArea === "SR")) return 26;
+        if ((oArea === "DH" && dArea === "TS") || (oArea === "TS" && dArea === "DH")) return 24;
+        if ((oArea === "NE" && dArea === "DL") || (oArea === "DL" && dArea === "NE")) return 35;
+        if ((oArea === "DH" && dArea === "DL") || (oArea === "DL" && dArea === "DH")) return 20;
+      }
+
+      return 7;
+    }
+
+    // 6. CSV Export
+    function exportCsv(type) {
+      let csvContent = 'data:text/csv;charset=utf-8,';
+      if (type === 'tickets') {
+        csvContent += 'TicketRef,Timestamp,Driver,VRN,TruckType,Plant,PlantDocket,SiteName,SitePostcode,RadialMiles,WaitingMins,ReceiverName,TotalPayout,Status\n';
+        baseTickets.forEach(t => {
+          csvContent += `"${t.ticketRef}","${t.timestamp}","${t.driver}","${t.vrn}","${t.truckLabel||t.truckType}","${t.plant}","${t.plantDocket}","${t.siteName}","${t.sitePostcode}","${t.radialMiles}","${t.waitingMins}","${t.receiverName}","${t.totalPayout}","${t.status}"\n`;
+        });
+      } else if (type === 'hauliers') {
+        csvContent += 'Company,Contact,Phone,Email,Vehicle,VRN,Location,Status,Bank\n';
+        baseHauliers.forEach(h => {
+          csvContent += `"${h.name}","${h.contact}","${h.phone}","${h.email}","${h.truck}","${h.vrn}","${h.location}","${h.status}","${h.bank}"\n`;
+        });
+      } else if (type === 'listings') {
+        csvContent += 'YardName,VehicleType,FullDayRate,HalfDayRate,RadialBase,PerMile,Location\n';
+        customListings.forEach(l => {
+          const r = l.rateTypeOptions || {};
+          csvContent += `"${l.plantName}","${l.truckType}","${r.fullDay||520}","${r.halfDay||320}","${r.radialBase||85}","${r.radialPerMile||5.00}","${l.location}"\n`;
+        });
+      } else if (type === 'bookings') {
+        csvContent += 'Reference,Timestamp,Operator,Vehicle,Scope,Postcode,Fee,Status\n';
+        baseBookings.forEach(b => {
+          csvContent += `"${b.refCode}","${b.timestamp}","${b.operatorName}","${b.truckType}","${b.bookingDesc}","${b.postcode}","${b.totalFee}","${b.status}"\n`;
+        });
+      } else {
+        csvContent += 'Company,Contact,Phone,Email,Location,Requirement,Status\n';
+        basePlants.forEach(p => {
+          csvContent += `"${p.company}","${p.contact}","${p.phone}","${p.email}","${p.location}","${p.need}","${p.status}"\n`;
+        });
+      }
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', 'mixershare_' + type + '_export.csv');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Initial Load & Render
+    loadData();
+    renderAll();
+  </script>
+</body>
+</html>

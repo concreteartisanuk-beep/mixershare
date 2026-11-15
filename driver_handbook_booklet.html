@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Ready-Mix Truck Driver's Handbook - MixerShare UK</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 12mm 15mm;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    body {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      line-height: 1.4;
+      padding: 20px;
+    }
+    .print-bar {
+      max-width: 900px;
+      margin: 0 auto 15px auto;
+      text-align: right;
+    }
+    .print-btn {
+      background-color: #f59e0b;
+      color: #0f172a;
+      font-weight: 800;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .booklet-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      padding: 40px;
+    }
+    .page-break {
+      page-break-before: always;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px dashed #cbd5e1;
+    }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .print-bar { display: none; }
+      .booklet-container { border: none; box-shadow: none; padding: 0; }
+      .page-break { border-top: none; margin-top: 0; padding-top: 0; }
+    }
+    /* Cover Page */
+    .cover-page {
+      text-align: center;
+      padding: 40px 20px;
+      border: 4px solid #0f172a;
+      border-radius: 12px;
+      margin-bottom: 40px;
+      background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+    }
+    .cover-badge {
+      display: inline-block;
+      background: #f59e0b;
+      color: #0f172a;
+      font-weight: 800;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+    .cover-title {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #0f172a;
+      line-height: 1.15;
+      margin-bottom: 15px;
+      letter-spacing: -0.5px;
+    }
+    .cover-subtitle {
+      font-size: 1.15rem;
+      color: #334155;
+      font-weight: 600;
+      max-width: 650px;
+      margin: 0 auto 30px auto;
+    }
+    .cover-author {
+      font-size: 1rem;
+      color: #0f172a;
+      font-weight: 700;
+      border-top: 2px solid #0f172a;
+      display: inline-block;
+      padding-top: 15px;
+      margin-top: 10px;
+    }
+    /* Typography */
+    h2.chapter-title {
+      font-size: 1.35rem;
+      color: #0f172a;
+      border-bottom: 3px solid #f59e0b;
+      padding-bottom: 6px;
+      margin: 25px 0 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    h3.sub-title {
+      font-size: 1.05rem;
+      color: #1e3a8a;
+      margin: 16px 0 6px 0;
+    }
+    p {
+      margin-bottom: 10px;
+      font-size: 0.92rem;
+      color: #334155;
+      line-height: 1.45;
+    }
+    ul, ol {
+      margin: 0 0 12px 20px;
+      font-size: 0.9rem;
+      color: #334155;
+    }
+    li {
+      margin-bottom: 4px;
+    }
+    /* Callout Boxes */
+    .callout-box {
+      background: #f1f5f9;
+      border-left: 4px solid #2563eb;
+      padding: 10px 14px;
+      border-radius: 4px;
+      margin: 12px 0;
+      font-size: 0.88rem;
+    }
+    .warning-box {
+      background: #fef2f2;
+      border-left: 4px solid #dc2626;
+      padding: 10px 14px;
+      border-radius: 4px;
+      margin: 12px 0;
+      font-size: 0.88rem;
+      color: #7f1d1d;
+    }
+    .warning-box strong {
+      color: #991b1b;
+    }
+    .tip-box {
+      background: #f0fdf4;
+      border-left: 4px solid #16a34a;
+      padding: 10px 14px;
+      border-radius: 4px;
+      margin: 12px 0;
+      font-size: 0.88rem;
+      color: #14532d;
+    }
+    /* Tables */
+    .table-custom {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 0.85rem;
+    }
+    .table-custom th {
+      background: #0f172a;
+      color: #fff;
+      padding: 7px 10px;
+      text-align: left;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+    }
+    .table-custom td {
+      padding: 7px 10px;
+      border-bottom: 1px solid #cbd5e1;
+    }
+    .table-custom tr:nth-child(even) {
+      background: #f8fafc;
+    }
+    /* Cheat Sheet Card */
+    .cheat-card {
+      background: #0f172a;
+      color: #fff;
+      border: 3px solid #f59e0b;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 25px 0;
+    }
+    .cheat-card h3 {
+      color: #f59e0b;
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+      text-align: center;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 6px;
+    }
+    .cheat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      font-size: 0.85rem;
+    }
+    .cheat-item strong {
+      color: #f59e0b;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .cheat-item span {
+      color: #cbd5e1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="print-bar">
+    <button class="print-btn" onclick="window.print()">🖨️ Print / Save to PDF</button>
+  </div>
+
+  <div class="booklet-container">
+
+    <!-- COVER PAGE -->
+    <div class="cover-page">
+      <div class="cover-badge">MixerShare UK • Driver Training Academy</div>
+      <h1 class="cover-title">THE READY-MIX TRUCK DRIVER'S HANDBOOK</h1>
+      <p class="cover-subtitle">A Complete Professional Guide to Mixer Operation, Slump Control, Drum Dynamics, Greasing & Site Safety</p>
+      
+      <div style="margin: 20px 0;">
+        <span style="font-size:3rem;">🚚 🔄 ⚖️</span>
+      </div>
+
+      <div class="cover-author">
+        Compiled & Written by <strong>Ian Henry</strong><br>
+        <span style="font-size:0.85rem; color:#475569; font-weight:normal;">30 Years UK Ready-Mix Concrete Delivery Experience</span>
+      </div>
+
+      <div style="margin-top:25px; font-size:0.8rem; color:#64748b;">
+        MixerShare UK Ltd • www.mixershare.co.uk • mixershareuk@gmail.com • 07494 867646
+      </div>
+    </div>
+
+    <!-- FOREWORD -->
+    <div class="callout-box" style="font-style:italic; font-size:0.95rem; line-height:1.5;">
+      "Driving an 8-wheeler concrete mixer is not like driving a curtainsider or tipper wagon. You have up to 20 tonnes of live, heavy, wet liquid sitting behind your cab, rotating constantly, shifting its weight on every bend, and setting against the clock. Standard HGV driving tests teach you how to pass in a dry, stable truck. They don't teach you what to do when your drum stalls with 8 cubic metres of C35 on a 25-degree summer afternoon, or how to handle slump adjustments. Keep this booklet in your cab at all times." — <strong>Ian Henry</strong>
+    </div>
+
+    <!-- CHAPTER 1 -->
+    <h2 class="chapter-title">🛠️ Chapter 1: Vehicle & Daily Maintenance Routine</h2>
+    <p>A concrete mixer is a mobile heavy manufacturing plant. If you neglect maintenance, concrete slurry will seize moving parts that cost thousands of pounds to replace.</p>
+
+    <h3 class="sub-title">1.1 The Daily Greasing Routine (Never Skip This)</h3>
+    <p>Concrete dust, wash-water, and heavy rotational loads strip grease faster than on any other HGV. The following points must be greased daily:</p>
+    <ul>
+      <li><strong>Drum Roller Bearings (Trunnion Rollers):</strong> 2 to 3 pumps of heavy-duty EP2 lithium grease on each rear roller bearing daily. Inspect the roller faces for flat spots, grooving, or bearing play. If a roller seizes, friction will wear a flat spot into your drum tyre ring in under 10 miles.</li>
+      <li><strong>Chute Swivel & Pivot Pins:</strong> Grease the swivel pivot daily. Concrete slurry dries inside the swivel, making the chute seize and causing severe driver back strain.</li>
+      <li><strong>Main Drum Pivot Bearing (Front Pedestal):</strong> Grease according to manufacturer spec (weekly or bi-weekly depending on grease point location).</li>
+      <li><strong>PTO & Drive Shaft Universal Joints (U-Joints):</strong> Check weekly. A failed PTO U-joint cuts hydraulic drive instantly, leaving you stranded with a full drum.</li>
+    </ul>
+
+    <h3 class="sub-title">1.2 The Pressurised Water Tank</h3>
+    <ul>
+      <li><strong>Daily Pre-Trip:</strong> Always check water tank level before leaving the yard. A mixer driver without water is a driver waiting to ruin a truck.</li>
+      <li><strong>Air Pressure Check:</strong> Ensure the air regulator holds correct pressure (3.5 to 4.5 bar). Manually pull the safety relief valve ring to ensure it isn't seized with dried slurry.</li>
+      <li><strong>Wash Hose:</strong> Check for splits, nozzle leaks, and trigger lock integrity.</li>
+    </ul>
+
+    <!-- CHAPTER 2 -->
+    <div class="page-break"></div>
+    <h2 class="chapter-title">🔄 Chapter 2: Drum Speeds & Rotational Dynamics</h2>
+    <p>The speed and direction of your drum dictates concrete quality, fuel consumption, blade wear, and rollover stability.</p>
+
+    <div class="callout-box" style="margin-bottom:15px;">
+      <strong>💡 The UK Driver's Direction Rule (Ian Henry):</strong><br>
+      • <strong>From the front of the wagon:</strong> The drum turns <strong>Clockwise</strong> for mix/agitate.<br>
+      • <strong>From the driver's seat (drum behind you):</strong> The drum turns <strong>towards the Passenger Side (Nearside/Left)</strong> for mix/agitate, and towards the <strong>Driver's Side (Offside/Right)</strong> for discharging.
+    </div>
+
+    <table class="table-custom">
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>Drum Speed</th>
+          <th>Rotation Direction (Cab / Front View)</th>
+          <th>Operational Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Batch Loading</strong></td>
+          <td>12 – 16 RPM</td>
+          <td>Towards Passenger Side (Clockwise from front)</td>
+          <td>Pulls materials into fins; blends dry batch</td>
+        </tr>
+        <tr>
+          <td><strong>Slump Adjustment</strong></td>
+          <td>12 – 14 RPM</td>
+          <td>Towards Passenger Side (Clockwise from front)</td>
+          <td>Thoroughly blends water/admixture</td>
+        </tr>
+        <tr>
+          <td><strong>Road Transit (Wet Concrete)</strong></td>
+          <td><strong>2 – 4 RPM ONLY</strong></td>
+          <td>Towards Passenger Side (Clockwise from front)</td>
+          <td>Prevents segregation without heat buildup</td>
+        </tr>
+        <tr style="background:#fef3c7;">
+          <td><strong>0-Slump / Semi-Dry Transit</strong></td>
+          <td><strong>0 RPM (STOPPED)</strong></td>
+          <td><strong>DRUM OFF (STATIONARY)</strong></td>
+          <td><strong>Prevents "balling", segregation & frictional heat</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Discharge (Pouring)</strong></td>
+          <td>8 – 14 RPM</td>
+          <td>Towards Driver's Side (Anti-Clock from front)</td>
+          <td>Smooth controlled feed down chutes</td>
+        </tr>
+        <tr>
+          <td><strong>Washout / Cleaning</strong></td>
+          <td>12 – 14 RPM</td>
+          <td>Alternating Both Directions</td>
+          <td>Scours blades with clean water</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warning-box">
+      <strong>⚠️ THE GOLDEN RULE OF ROAD TRANSIT: NEVER DRIVE AT FULL MIX SPEED</strong><br>
+      In transit with standard wet concrete, run the drum at <strong>Agitation Speed (2 to 4 RPM) only</strong>. Running at 14 RPM on the road generates massive friction heat (causing rapid slump loss and flash setting), raises your centre of gravity (causing rollovers), and burns an extra 15–20% in diesel.
+    </div>
+
+    <div class="warning-box" style="background:#fffbeb; border-left:4px solid #f59e0b; color:#92400e;">
+      <strong style="color:#b45309;">⚠️ THE ZERO-SLUMP / SEMI-DRY RULE: TRAVEL WITH THE DRUM STOPPED (IAN HENRY)</strong><br>
+      When carrying <strong>0-slump, dry-lean, kerb mix, or semi-dry concrete (ST1, Gen 0)</strong>, you must <strong>DISENGAGE THE PTO AND TRAVEL WITH THE DRUM COMPLETELY STOPPED (0 RPM)</strong>.<br>
+      • <strong>The "Balling" Trap:</strong> If you rotate the drum on semi-dry mix while travelling, the concrete rolls over like snowballs, turning into rock-hard dense concrete "cannonballs" that wedge behind the blades and cannot be discharged down the chutes!<br>
+      • <strong>Frictional Heat:</strong> Turning semi-dry concrete creates intense friction heat that flashes off the minimal moisture, making it set prematurely inside the drum.<br>
+      • <strong>The Correct Site Procedure:</strong> Travel with the drum stopped. Once on site, start the drum in <strong>Mixing Speed (10–12 RPM) for 30–60 seconds</strong> to loosen the material before reversing to discharge.
+    </div>
+
+    <h3 class="sub-title">2.1 Emergency Protocol: Engine Stall Under Load</h3>
+    <p>If your truck cuts out with a full 8m³ load, you have <strong>45 to 90 minutes</strong> before initial set:</p>
+    <ol>
+      <li><strong>Call Dispatch & Plant Immediately:</strong> Inform your plant manager and MixerShare dispatch (07494 867646).</li>
+      <li><strong>Hydraulic Buddy Jump:</strong> If a rescue truck or hydraulic auxiliary pack is available, connect lines to keep the drum agitating.</li>
+      <li><strong>Emergency Sugar Neutraliser:</strong> Granulated refined sugar is a total chemical retarder. Adding 25–50 kg of sugar with water into a full drum stops the hydration reaction completely, buying 3 to 6 hours to get to a discharge point.</li>
+    </ol>
+
+    <!-- CHAPTER 3 -->
+    <h2 class="chapter-title">🧪 Chapter 3: Slump Management & Slump Meters</h2>
+    <p>Slump measures the workability (wetness) of concrete. Getting it right is the true mark of a skilled ready-mix driver.</p>
+
+    <h3 class="sub-title">3.1 Reading the Hydraulic Slump Pressure Gauge</h3>
+    <p>The gauge on the rear pedestal and in your cab measures hydraulic resistance (bar or PSI) required to turn the drum.</p>
+    <ul>
+      <li>Stiffer, drier mix = Higher hydraulic resistance $\rightarrow$ <strong>High gauge reading</strong>.</li>
+      <li>Wetter, fluid mix = Lower resistance $\rightarrow$ <strong>Low gauge reading</strong>.</li>
+      <li><strong>Volume Rule:</strong> Slump pressure is relative to load size. 8m³ of S3 slump creates much higher resistance than 2m³ of the exact same mix. Learn your truck's baseline at 10 RPM for full vs half loads.</li>
+    </ul>
+
+    <h3 class="sub-title">3.2 Visual Slump Assessment Inside the Drum</h3>
+    <p>Climb the ladder and observe the concrete rolling off the fins at 10–12 RPM:</p>
+    <ul>
+      <li><strong>S1 (10–40mm / Dry):</strong> Clumps and breaks off blades in chunks; dull surface; no fluid flow.</li>
+      <li><strong>S2 (50–90mm / Semi-Dry):</strong> Rolls and curls like heavy dough. Used for footings and simple slabs.</li>
+      <li><strong>S3 (100–150mm / Standard):</strong> Glides off blades with a glossy, wet sheen; forms a smooth rolling wave.</li>
+      <li><strong>S4 (160–210mm / High Slump):</strong> Fluid ripple across the bottom; self-levels; standard for concrete pumps.</li>
+    </ul>
+
+    <!-- CHAPTER 4 -->
+    <div class="page-break"></div>
+    <h2 class="chapter-title">⚖️ Chapter 4: Water Addition & Legal Liabilities</h2>
+    <div class="warning-box">
+      <strong>⚠️ THE CHEMISTRY OF FAILURE: THE WATER/CEMENT RATIO</strong><br>
+      Adding just <strong>10 litres of water to 1m³ of concrete drops compressive strength by 2 to 3 N/mm²</strong>. Over-watering a C35 structural slab can cause it to test at C25 at 28 days, resulting in condemned structures and £50,000+ replacement claims!
+    </div>
+
+    <h3 class="sub-title">4.1 The "Water Added at Customer Request" Protocol</h3>
+    <p>Groundworkers will almost always ask for water because wet concrete is easier to rake. Follow these strict rules to protect yourself and your company:</p>
+    <ul>
+      <li><strong>Rule 1:</strong> NEVER turn on the water hose on site until the site foreman or agent has signed the delivery ticket in the specific box: <em>"Water Added at Customer's Request & Risk"</em>.</li>
+      <li><strong>Rule 2:</strong> Record the exact quantity of water added (e.g. <em>"30 Litres added at customer request. Signed: J. Smith"</em>).</li>
+      <li><strong>Rule 3:</strong> If the customer refuses to sign the disclaimer, <strong>DO NOT ADD WATER</strong>. Discharge the concrete as batched or call dispatch immediately.</li>
+    </ul>
+
+    <!-- CHAPTER 5 -->
+    <h2 class="chapter-title">🚚 Chapter 5: Roadcraft & Rollover Prevention</h2>
+    <p>Mixer trucks have one of the highest rollover rates in UK transport due to dynamic liquid weight shifts.</p>
+
+    <h3 class="sub-title">5.1 Centrifugal Liquid Surge & Passenger-Side Rollover Physics</h3>
+    <ul>
+      <li>A loaded 8x4 mixer carries <strong>18 to 20 tonnes of wet concrete</strong>.</li>
+      <li><strong>Drum Rotation Dynamics:</strong> If looking at the drum from the front of the wagon, it turns <strong>Clockwise</strong>. But when driving the mixer and the drum is behind you in the cab, <strong>it turns towards the passenger side (nearside/left) for mix</strong>.</li>
+      <li><strong>Weight Bias:</strong> As the drum turns towards the passenger side, the internal spiral blades carry up to 20 tonnes of wet concrete high up the <strong>passenger-side wall</strong> of the drum. This shifts the truck's dynamic centre of gravity upwards and heavily to the left.</li>
+      <li><strong>The UK Roundabout Trap:</strong> Circumnavigating a UK roundabout requires turning right, which creates centrifugal inertia forcing the entire truck and payload outwards to the left (the passenger side)—<strong>the exact same side where the wet concrete is already riding high inside the drum!</strong></li>
+      <li><strong>The Result:</strong> The rotational lift of the concrete and the centrifugal force of the right turn compound directly on the nearside suspension and tyres. Entering a roundabout just 5 mph too fast will tip an 8-wheeler over onto its passenger side with zero tyre screech or warning.</li>
+      <li><strong>The Safe Rule:</strong> Approach and negotiate all roundabouts and sharp right turns at <strong>crawl speeds (10 to 15 mph maximum)</strong>.</li>
+      <li><strong>Braking Gap:</strong> Wet concrete surges forward under heavy braking. Leave double the following distance of a standard rigid wagon.</li>
+    </ul>
+
+    <!-- CHAPTER 6 -->
+    <h2 class="chapter-title">🏗️ Chapter 6: Plant & Jobsite Operations</h2>
+    <h3 class="sub-title">6.1 The Official Batch Plant Loading Protocol (Ian Henry - 30 Years Experience)</h3>
+    <div style="background:#f8fafc; border:2px solid #0284c7; border-radius:8px; padding:16px; margin:12px 0;">
+      <p style="margin:0 0 10px 0; font-size:0.92rem; color:#0369a1; font-weight:700;">Follow this strict 6-step loading procedure every load before leaving the batch plant:</p>
+      <ol style="margin-left:20px; font-size:0.88rem; line-height:1.55; color:#0f172a;">
+        <li style="margin-bottom:8px;"><strong>Position Correctly Under Plant:</strong> Pull the truck under the batch plant cone slowly. Check overhead convex mirrors and ground marks to ensure the charging hopper sits dead-centre beneath the rubber loading boot to prevent spillage.</li>
+        <li style="margin-bottom:8px;"><strong>Engage Drum &amp; Set 1,400 Revs:</strong> Engage drum into mixing direction (towards passenger side / clockwise from front) and turn engine revs to <strong>1,400 RPM (approx. 1.4k RPM)</strong>. This drives the hydraulic pump at full batch charging speed (~12–14 drum RPM) to pull materials cleanly down to the belly.</li>
+        <li style="margin-bottom:8px;"><strong>Fill Water Tank (The Unbreakable Rule):</strong> Attach plant water hose to fill the water tank immediately while batching. <strong style="color:#b91c1c;">⚠️ NEVER LEAVE THE PLANT WITHOUT A FULL TANK OF WATER!</strong> (Essential for washouts, chute cleaning, and emergency retarder hydration).</li>
+        <li style="margin-bottom:8px;"><strong>Slump Check &amp; Batcher Liaison:</strong> When loaded, check the slump with the hydraulic slump gauge. If not working or erratic, visually inspect the concrete flow inside the drum and liaise directly with the batcher if it is dry and needs a bit more water, or if it is batched too wet.</li>
+        <li style="margin-bottom:8px;"><strong>Clear Bay &amp; Top-of-Ladder Visual Check:</strong> Once satisfied with initial slump, pull the truck out of the way to free up the plant for the next wagon. Apply parking brake, climb the gantry/chute inspection ladders, and visually inspect the load for the 3 Critical Checks:
+          <br>• <strong>Amount (Volume):</strong> Verify load height/volume matches ticket (e.g. 8m³ full belly vs half load).
+          <br>• <strong>Colour:</strong> Check for uniform cementitious grey throughout; no dry aggregate streaks or sand pockets.
+          <br>• <strong>Slump:</strong> Confirm true consistency and rolling wave action.
+        </li>
+        <li><strong>Slow Down Drum &amp; Proceed to Site:</strong> Once fully satisfied, slow down the drum to transit agitation speed (<strong>2–4 RPM only</strong> for wet concrete; <strong>0 RPM completely stopped</strong> for 0-slump/semi-dry) and proceed safely to site.</li>
+      </ol>
+    </div>
+
+    <h3 class="sub-title">6.2 Construction Site Ground Hazards</h3>
+    <ul>
+      <li><strong>Trench Collapse:</strong> Stay well back from unsupported service trenches. A 32t truck will shear a soft clay trench wall instantly.</li>
+      <li><strong>Manholes & Chambers:</strong> Never drive over plastic inspection covers or unrated metal lids.</li>
+      <li><strong>Banksman Rule:</strong> Always use a site banksman when reversing. <em>If you lose sight of the banksman in your mirrors, STOP IMMEDIATELY.</em></li>
+      <li><strong>Chute Pinch Points:</strong> Always use two hands when extending chutes. Keep fingers clear of hinge joints and verify safety travel latches before leaving site.</li>
+    </ul>
+
+    <!-- CHAPTER 7 -->
+    <div class="page-break"></div>
+    <h2 class="chapter-title">🌱 Chapter 7: Washout Rules, Environmental Law & Drum Care</h2>
+    <p>Concrete wash-water has an alkaline pH of 12–13, equivalent to industrial bleach. It destroys aquatic life and causes severe skin burns.</p>
+    <ul>
+      <li><strong>Environment Agency Fines:</strong> Washing concrete slurry into road gullies, ditches, or rivers carries <strong>fines up to £50,000 and personal driver penalties</strong> under the Environmental Protection Act.</li>
+      <li><strong>Compliant Site Washout:</strong> Always wash into designated site washout pits, lined skips, or your onboard wash-water return chute. Never wash onto road surfaces.</li>
+      <li><strong>Standard Daily Drum Wash:</strong> Put 500–800 litres of clean water into the drum at the end of each shift. Cycle at 14 RPM in mixing and reverse to wash the belly and blades.</li>
+    </ul>
+
+    <div class="tip-box" style="margin-top:15px; border-left:4px solid #16a34a; background:#f0fdf4; padding:12px 16px;">
+      <strong style="color:#15803d; font-size:0.95rem;">🪨 THE "STONING OUT" PROTOCOL: CLEANING STICKY & DRY LOADS (IAN HENRY)</strong><br>
+      <p style="margin:6px 0; color:#14532d; font-size:0.88rem;">If you have been hauling <strong>dry, semi-dry, or sticky, high-cement mixes all day</strong>, water alone will NOT remove the concrete buildup on the blades and belly. You must <strong>stone out</strong> at the end of the shift to stop "dag" hardening overnight and stealing tonnes of payload:</p>
+      <ol style="margin-left:20px; color:#14532d; font-size:0.87rem;">
+        <li>Add approximately <strong>1,000 litres of clean water</strong> into the drum.</li>
+        <li>Charge <strong>2 to 3 tonnes of clean gravel / 20mm aggregate</strong> from the batch plant.</li>
+        <li>Run the drum at <strong>12 to 14 RPM</strong> in mixing direction for several minutes to scour the blades and belly.</li>
+        <li><strong>Run the gravel in and out of the drum a couple of times</strong> by reversing the drum until aggregate climbs up to the discharge throat, then switching back to mixing. This scours both sides of the spiral fins and the cone.</li>
+        <li>Discharge the aggregate slurry into the plant recycling reclaimer, recovery pit, or aggregate bay.</li>
+      </ol>
+    </div>
+
+    <!-- QUICK REFERENCE CAB CHEAT SHEET -->
+    <div class="cheat-card">
+      <h3>📋 READY-MIX DRIVER CAB EMERGENCY CHEAT SHEET</h3>
+      <div class="cheat-grid">
+        <div class="cheat-item">
+          <strong>Standard Transit (Wet):</strong>
+          <span>2 – 4 RPM (Towards Passenger Side)</span>
+        </div>
+        <div class="cheat-item">
+          <strong>0-Slump / Semi-Dry Transit:</strong>
+          <span>0 RPM (STOP DRUM COMPLETELY! Avoids balling)</span>
+        </div>
+        <div class="cheat-item">
+          <strong>Drum Rotation (Cab View):</strong>
+          <span>Turns towards Passenger Side for Mix • Driver Side for Discharge</span>
+        </div>
+        <div class="cheat-item">
+          <strong>Drum Rotation (Front View):</strong>
+          <span>Clockwise for Mix/Agitate • Anti-Clockwise for Discharge</span>
+        </div>
+        <div class="cheat-item">
+          <strong>Discharge Speed:</strong>
+          <span>8 – 14 RPM (Towards Driver's Side)</span>
+        </div>
+        <div class="cheat-item" style="grid-column: span 2; background:#0f172a; border-left:4px solid #38bdf8;">
+          <strong style="color:#38bdf8;">Plant Loading Protocol:</strong>
+          <span style="color:#f1f5f9;">1. Line up cone • 2. Mix @ 1,400 RPM • 3. FILL WATER TANK FULL • 4. Slump gauge/batcher • 5. Clear bay, climb ladder (check Amount, Colour, Slump) • 6. Slow to 2-4 RPM -> Site</span>
+        </div>
+        <div class="cheat-item">
+          <strong>End-of-Day Sticky Mixes:</strong>
+          <span>Stone out: ~1,000L water + 2-3t gravel (run in/out 2x)</span>
+        </div>
+        <div class="cheat-item">
+          <strong>Water Addition Law:</strong>
+          <span>NEVER add water without signed ticket disclaimer!</span>
+        </div>
+        <div class="cheat-item">
+          <strong>Water Strength Impact:</strong>
+          <span>+10 Litres water = -2.5 N/mm² strength loss</span>
+        </div>
+        <div class="cheat-item">
+          <strong>Roundabout Speed:</strong>
+          <span>10 – 15 MPH Max (Liquid surge rollover hazard)</span>
+        </div>
+        <div class="cheat-item">
+          <strong>Daily Greasing:</strong>
+          <span>Trunnion rollers & chute swivel daily (EP2 Lithium)</span>
+        </div>
+        <div class="cheat-item">
+          <strong>Environmental Rule:</strong>
+          <span>NEVER wash into road gullies (£10k+ EA fine)</span>
+        </div>
+        <div class="cheat-item">
+          <strong>De-Dagging Prevention:</strong>
+          <span>Regular washing/stoning saves 1-2t payload capacity</span>
+        </div>
+        <div class="cheat-item" style="grid-column: span 2; background:#022c22; border-left:4px solid #10b981;">
+          <strong style="color:#4ade80;">Deadhead Mileage Guardrail:</strong>
+          <span style="color:#d1fae5;">Single spot loads restricted to 8 miles deadhead. Dispatches >8 miles require Half-Day Shift (£288 net), Min 3 loads, or £2.50/mi diesel surcharge to protect your earnings!</span>
+        </div>
+        <div class="cheat-item" style="grid-column: span 2; background:#082f49; border-left:4px solid #38bdf8;">
+          <strong style="color:#38bdf8;">Digital Delivery Ticket (ticket.html):</strong>
+          <span style="color:#e0f2fe;">After discharge, log plant docket, radial miles, excess waiting (>30m), & customer finger signature on phone for 24-hr Faster Payments!</span>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:15px; border-top:1px solid #334155; padding-top:10px; font-size:0.85rem; color:#f59e0b;">
+        MixerShare UK Dispatch Desk: 07494 867646 • www.mixershare.co.uk
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

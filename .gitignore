@@ -1,0 +1,11 @@
+# OS Generated Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node / Temp Files
+node_modules/
+npm-debug.log
+.env
+.cache/
+.netlify/
